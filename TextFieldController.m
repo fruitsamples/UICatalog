@@ -1,295 +1,148 @@
 /*
-
-File: TextFieldController.m
-Abstract: The view controller for hosting the UITextField features of this
-sample.
-
-Version: 1.7
-
-Disclaimer: IMPORTANT:  This Apple software is supplied to you by Apple Inc.
-("Apple") in consideration of your agreement to the following terms, and your
-use, installation, modification or redistribution of this Apple software
-constitutes acceptance of these terms.  If you do not agree with these terms,
-please do not use, install, modify or redistribute this Apple software.
-
-In consideration of your agreement to abide by the following terms, and subject
-to these terms, Apple grants you a personal, non-exclusive license, under
-Apple's copyrights in this original Apple software (the "Apple Software"), to
-use, reproduce, modify and redistribute the Apple Software, with or without
-modifications, in source and/or binary forms; provided that if you redistribute
-the Apple Software in its entirety and without modifications, you must retain
-this notice and the following text and disclaimers in all such redistributions
-of the Apple Software.
-Neither the name, trademarks, service marks or logos of Apple Inc. may be used
-to endorse or promote products derived from the Apple Software without specific
-prior written permission from Apple.  Except as expressly stated in this notice,
-no other rights or licenses, express or implied, are granted by Apple herein,
-including but not limited to any patent rights that may be infringed by your
-derivative works or by other works in which the Apple Software may be
-incorporated.
-
-The Apple Software is provided by Apple on an "AS IS" basis.  APPLE MAKES NO
-WARRANTIES, EXPRESS OR IMPLIED, INCLUDING WITHOUT LIMITATION THE IMPLIED
-WARRANTIES OF NON-INFRINGEMENT, MERCHANTABILITY AND FITNESS FOR A PARTICULAR
-PURPOSE, REGARDING THE APPLE SOFTWARE OR ITS USE AND OPERATION ALONE OR IN
-COMBINATION WITH YOUR PRODUCTS.
-
-IN NO EVENT SHALL APPLE BE LIABLE FOR ANY SPECIAL, INDIRECT, INCIDENTAL OR
-CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE
-GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
-ARISING IN ANY WAY OUT OF THE USE, REPRODUCTION, MODIFICATION AND/OR
-DISTRIBUTION OF THE APPLE SOFTWARE, HOWEVER CAUSED AND WHETHER UNDER THEORY OF
-CONTRACT, TORT (INCLUDING NEGLIGENCE), STRICT LIABILITY OR OTHERWISE, EVEN IF
-APPLE HAS BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-
-Copyright (C) 2008 Apple Inc. All Rights Reserved.
-
-*/
+     File: TextFieldController.m
+ Abstract: The view controller for hosting the UITextField features of this sample.
+  Version: 2.5
+ 
+ Disclaimer: IMPORTANT:  This Apple software is supplied to you by Apple
+ Inc. ("Apple") in consideration of your agreement to the following
+ terms, and your use, installation, modification or redistribution of
+ this Apple software constitutes acceptance of these terms.  If you do
+ not agree with these terms, please do not use, install, modify or
+ redistribute this Apple software.
+ 
+ In consideration of your agreement to abide by the following terms, and
+ subject to these terms, Apple grants you a personal, non-exclusive
+ license, under Apple's copyrights in this original Apple software (the
+ "Apple Software"), to use, reproduce, modify and redistribute the Apple
+ Software, with or without modifications, in source and/or binary forms;
+ provided that if you redistribute the Apple Software in its entirety and
+ without modifications, you must retain this notice and the following
+ text and disclaimers in all such redistributions of the Apple Software.
+ Neither the name, trademarks, service marks or logos of Apple Inc. may
+ be used to endorse or promote products derived from the Apple Software
+ without specific prior written permission from Apple.  Except as
+ expressly stated in this notice, no other rights or licenses, express or
+ implied, are granted by Apple herein, including but not limited to any
+ patent rights that may be infringed by your derivative works or by other
+ works in which the Apple Software may be incorporated.
+ 
+ The Apple Software is provided by Apple on an "AS IS" basis.  APPLE
+ MAKES NO WARRANTIES, EXPRESS OR IMPLIED, INCLUDING WITHOUT LIMITATION
+ THE IMPLIED WARRANTIES OF NON-INFRINGEMENT, MERCHANTABILITY AND FITNESS
+ FOR A PARTICULAR PURPOSE, REGARDING THE APPLE SOFTWARE OR ITS USE AND
+ OPERATION ALONE OR IN COMBINATION WITH YOUR PRODUCTS.
+ 
+ IN NO EVENT SHALL APPLE BE LIABLE FOR ANY SPECIAL, INDIRECT, INCIDENTAL
+ OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ INTERRUPTION) ARISING IN ANY WAY OUT OF THE USE, REPRODUCTION,
+ MODIFICATION AND/OR DISTRIBUTION OF THE APPLE SOFTWARE, HOWEVER CAUSED
+ AND WHETHER UNDER THEORY OF CONTRACT, TORT (INCLUDING NEGLIGENCE),
+ STRICT LIABILITY OR OTHERWISE, EVEN IF APPLE HAS BEEN ADVISED OF THE
+ POSSIBILITY OF SUCH DAMAGE.
+ 
+ Copyright (C) 2009 Apple Inc. All Rights Reserved.
+ 
+ */
 
 #import "TextFieldController.h"
 #import "Constants.h"
-#import "CellTextField.h"
-#import "SourceCell.h"
 
-// the amount of vertical shift upwards keep the text field in view as the keyboard appears
-#define kOFFSET_FOR_KEYBOARD					150.0
+#define kTextFieldWidth	260.0
 
-#define kTextFieldWidth							100.0	// initial width, but the table cell will dictact the actual width
+static NSString *kSectionTitleKey = @"sectionTitleKey";
+static NSString *kSourceKey = @"sourceKey";
+static NSString *kViewKey = @"viewKey";
 
-// the duration of the animation for the view shift
-#define kVerticalOffsetAnimationDuration		0.30
-
-#define kUITextField_Section					0
-#define kUITextField_Rounded_Custom_Section		1
-#define kUITextField_Secure_Section				2
-
-// Private interface for TextFieldController - internal only methods.
-@interface TextFieldController (Private)
-- (void)setViewMovedUp:(BOOL)movedUp;
-@end
+const NSInteger kViewTag = 1;
 
 @implementation TextFieldController
 
-@synthesize myTableView;
-
-- (id)init
-{
-	self = [super init];
-	if (self)
-	{
-		// this title will appear in the navigation bar
-		self.title = NSLocalizedString(@"TextFieldTitle", @"");
-	}
-	
-	return self;
-}
+@synthesize textFieldNormal, textFieldRounded, textFieldSecure, textFieldLeftView, dataSourceArray;
 
 - (void)dealloc
 {
-	[myTableView release];
-	[textField release];
+	[textFieldNormal release];
 	[textFieldRounded release];
 	[textFieldSecure release];
+	[textFieldLeftView release];
+	
+	[dataSourceArray release];
 	
 	[super dealloc];
 }
 
-#pragma mark
-#pragma mark UITextField
-#pragma mark
-- (UITextField *)createTextField
+- (void)viewDidLoad
 {
-	CGRect frame = CGRectMake(0.0, 0.0, kTextFieldWidth, kTextFieldHeight);
-	UITextField *returnTextField = [[UITextField alloc] initWithFrame:frame];
-   
-	returnTextField.borderStyle = UITextBorderStyleBezel;
-    returnTextField.textColor = [UIColor blackColor];
-	returnTextField.font = [UIFont systemFontOfSize:17.0];
-    returnTextField.placeholder = @"<enter text>";
-    returnTextField.backgroundColor = [UIColor whiteColor];
-	returnTextField.autocorrectionType = UITextAutocorrectionTypeNo;	// no auto correction support
+	[super viewDidLoad];
 	
-	returnTextField.keyboardType = UIKeyboardTypeDefault;	// use the default type input method (entire keyboard)
-	returnTextField.returnKeyType = UIReturnKeyDone;
+	self.dataSourceArray = [NSArray arrayWithObjects:
+								[NSDictionary dictionaryWithObjectsAndKeys:
+								 @"UITextField", kSectionTitleKey,
+								 @"TextFieldController.m: textFieldNormal", kSourceKey,
+								 self.textFieldNormal, kViewKey,
+							 nil],
+							
+							[NSDictionary dictionaryWithObjectsAndKeys:
+								 @"UITextField Rounded", kSectionTitleKey,
+								 @"TextFieldController.m: textFieldRounded", kSourceKey,
+								 self.textFieldRounded, kViewKey,
+							 nil],
+							
+							[NSDictionary dictionaryWithObjectsAndKeys:
+								 @"UITextField Secure", kSectionTitleKey,
+								 @"TextFieldController.m: textFieldSecure", kSourceKey,
+								 self.textFieldSecure, kViewKey,
+							 nil],
+							
+							[NSDictionary dictionaryWithObjectsAndKeys:
+								 @"UITextField (with LeftView)", kSectionTitleKey,
+								 @"TextFieldController.m: textFieldLeftView", kSourceKey,
+								 self.textFieldLeftView, kViewKey,
+								 nil],
+							nil];
 	
-	returnTextField.clearButtonMode = UITextFieldViewModeWhileEditing;	// has a clear 'x' button to the right
+	self.title = NSLocalizedString(@"TextFieldTitle", @"");
 	
-	return returnTextField;
-}
-
-#pragma mark
-#pragma mark UITextField - rounded
-#pragma mark
-- (UITextField *)createTextField_Rounded
-{
-	CGRect frame = CGRectMake(0.0, 0.0, kTextFieldWidth, kTextFieldHeight);
-	UITextField *returnTextField = [[UITextField alloc] initWithFrame:frame];
-    
-	returnTextField.borderStyle = UITextBorderStyleRoundedRect;
-    returnTextField.textColor = [UIColor blackColor];
-	returnTextField.font = [UIFont systemFontOfSize:17.0];
-    returnTextField.placeholder = @"<enter text>";
-    returnTextField.backgroundColor = [UIColor whiteColor];
-	returnTextField.autocorrectionType = UITextAutocorrectionTypeNo;	// no auto correction support
-	
-	returnTextField.keyboardType = UIKeyboardTypeDefault;
-	returnTextField.returnKeyType = UIReturnKeyDone;
-	
-	returnTextField.clearButtonMode = UITextFieldViewModeWhileEditing;	// has a clear 'x' button to the right
-	
-	return returnTextField;
-}
-
-#pragma mark
-#pragma mark UITextField - secure
-#pragma mark
-- (UITextField *)createTextField_Secure
-{
-	CGRect frame = CGRectMake(0.0, 0.0, kTextFieldWidth, kTextFieldHeight);
-	UITextField *returnTextField = [[UITextField alloc] initWithFrame:frame];
-    returnTextField.borderStyle = UITextBorderStyleBezel;
-    returnTextField.textColor = [UIColor blackColor];
-	returnTextField.font = [UIFont systemFontOfSize:17.0];
-    returnTextField.placeholder = @"<enter password>";
-    returnTextField.backgroundColor = [UIColor whiteColor];
-	
-	returnTextField.keyboardType = UIKeyboardTypeDefault;
-	returnTextField.returnKeyType = UIReturnKeyDone;	
-	returnTextField.secureTextEntry = YES;	// make the text entry secure (bullets)
-	
-	returnTextField.clearButtonMode = UITextFieldViewModeWhileEditing;	// has a clear 'x' button to the right
-	
-	return returnTextField;
-}
-
-- (void)loadView
-{
-	// setup our parent content view and embed it to your view controller
-	UIView *contentView = [[UIView alloc] initWithFrame:[[UIScreen mainScreen] applicationFrame]];
-	contentView.backgroundColor = [UIColor blackColor];
-	contentView.autoresizesSubviews = YES;
-	self.view = contentView;
-	[contentView release];
-	
+	// we aren't editing any fields yet, it will be in edit when the user touches an edit field
 	self.editing = NO;
-	self.navigationItem.rightBarButtonItem = self.editButtonItem;
-	
-	// create and configure the table view
-	myTableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStyleGrouped];	
-	myTableView.delegate = self;
-	myTableView.dataSource = self;
+}
 
-	myTableView.scrollEnabled = NO;	// no scrolling in this case, we don't want to interfere with touch events on edit fields
-	[self.view addSubview: myTableView];
+// called after the view controller's view is released and set to nil.
+// For example, a memory warning which causes the view to be purged. Not invoked as a result of -dealloc.
+// So release any properties that are loaded in viewDidLoad or can be recreated lazily.
+//
+- (void)viewDidUnload
+{
+	[super viewDidUnload];
 	
-	// create our text fields to be recycled when UITableViewCells are created
-	textField = [self createTextField];	
-	textFieldRounded = [self createTextField_Rounded];	
-	textFieldSecure = [self createTextField_Secure];
-	
-	// create the UIToolbar at the bottom of the view controller
+	// release the controls and set them nil in case they were ever created
+	// note: we can't use "self.xxx = nil" since they are read only properties
 	//
-	UIToolbar *toolbar = [UIToolbar new];
-	toolbar.barStyle = UIBarStyleDefault;
+	[textFieldNormal release];
+	textFieldNormal = nil;		
+	[textFieldRounded release];
+	textFieldRounded = nil;
+	[textFieldSecure release];
+	textFieldSecure = nil;
+	[textFieldLeftView release];
+	textFieldLeftView = nil;
 	
-	CGRect frame = CGRectMake(0.0, 0.0, kSwitchButtonWidth, kSwitchButtonHeight);
-	UISwitch *switchCtl = [[UISwitch alloc] initWithFrame:frame];
-	[switchCtl addTarget:self action:@selector(leftViewAction:) forControlEvents:UIControlEventValueChanged];
-	switchCtl.backgroundColor = [UIColor clearColor];
-	UIBarButtonItem *customItem = [[UIBarButtonItem alloc] initWithCustomView:switchCtl];
-	[switchCtl release];
-	
-	frame = CGRectMake(0.0, 0.0, 70.0, kLabelHeight);
-	UILabel *label = [[[UILabel alloc] initWithFrame:frame] autorelease];
-	label.textAlignment = UITextAlignmentRight;
-    label.text = NSLocalizedString(@"LeftView", @"");
-    label.font = [UIFont boldSystemFontOfSize:14.0];
-    label.backgroundColor = [UIColor clearColor];
-	label.textColor = [UIColor colorWithRed:76.0/255.0 green:86.0/255.0 blue:108.0/255.0 alpha:1.0];
-	UIBarButtonItem *labelItem = [[UIBarButtonItem alloc] initWithCustomView:label];
-	[label release];
-		
-	NSArray *items = [NSArray arrayWithObjects: labelItem, customItem, nil];
-	toolbar.items = items;
-	[customItem release];
-	[labelItem release];
-								   
-	// size up the toolbar and set its frame
-	[toolbar sizeToFit];
-	CGFloat toolbarHeight = [toolbar frame].size.height;
-	CGRect mainViewBounds = self.view.bounds;
-	[toolbar setFrame:CGRectMake(CGRectGetMinX(mainViewBounds),
-								 CGRectGetMinY(mainViewBounds) + CGRectGetHeight(mainViewBounds) - (toolbarHeight * 2.0),
-								 CGRectGetWidth(mainViewBounds),
-								 toolbarHeight)];
-	
-	[self.view addSubview:toolbar];
-	[toolbar release];	
+	self.dataSourceArray = nil;
 }
 
-// affects the leftView property of UITextField, essentially adding any UIView you want.
-// note also you can do the same for the right by affecting its "rightView" property.
-//
-- (void)leftViewAction:(id)sender
-{
-	UISwitch *switchCtl = (UISwitch*)sender;
-	if (switchCtl.on)
-	{
-		// add the image to each text field
-		textField.leftView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"segment_check.png"]];
-		textField.leftViewMode = UITextFieldViewModeAlways;
-		
-		textFieldRounded.leftView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"segment_check.png"]];
-		textFieldRounded.leftViewMode = UITextFieldViewModeAlways;
-		
-		textFieldSecure.leftView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"segment_check.png"]];
-		textFieldSecure.leftViewMode = UITextFieldViewModeAlways;
-	}
-	else
-	{
-		// remove the leftView image from each text field
-		textField.leftView = nil;
-		textFieldRounded.leftView = nil;
-		textFieldSecure.leftView = nil;
-	}
-}
 
-#pragma mark - UITableView delegates
-
-// if you want the entire table to just be re-orderable then just return UITableViewCellEditingStyleNone
-//
-- (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-	return UITableViewCellEditingStyleNone;
-}
+#pragma mark -
+#pragma mark UITableViewDataSource
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-	return 3;
+	return [self.dataSourceArray count];
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
-	NSString *title;
-	switch (section)
-	{
-		case kUITextField_Section:
-		{
-			title = @"UITextField";
-			break;
-		}
-		case kUITextField_Rounded_Custom_Section:
-		{
-			title = @"UITextField Rounded";
-			break;
-		}
-		case kUITextField_Secure_Section:
-		{
-			title = @"UITextField Secure";
-			break;
-		}
-	}
-	return title;
+	return [[self.dataSourceArray objectAtIndex: section] valueForKey:kSectionTitleKey];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -297,220 +150,180 @@ Copyright (C) 2008 Apple Inc. All Rights Reserved.
 	return 2;
 }
 
-// to determine specific row height for each cell, override this.  In this example, each row is determined
-// buy the its subviews that are embedded.
+// to determine specific row height for each cell, override this.
+// In this example, each row is determined by its subviews that are embedded.
 //
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-	CGFloat result;
-	
-	switch ([indexPath row])
-	{
-		case 0:
-		{
-			result = kUIRowHeight;
-			break;
-		}
-		case 1:
-		{
-			result = kUIRowLabelHeight;
-			break;
-		}
-	}
-
-	return result;
-}
-
-// utility routine leveraged by 'cellForRowAtIndexPath' to determine which UITableViewCell to be used on a given row
-//
-- (UITableViewCell *)obtainTableCellForRow:(NSInteger)row
-{
-	UITableViewCell *cell = nil;
-
-	if (row == 0)
-		cell = [myTableView dequeueReusableCellWithIdentifier:kCellTextField_ID];
-	else if (row == 1)
-		cell = [myTableView dequeueReusableCellWithIdentifier:kSourceCell_ID];
-	
-	if (cell == nil)
-	{
-		if (row == 0)
-		{
-			cell = [[[CellTextField alloc] initWithFrame:CGRectZero reuseIdentifier:kCellTextField_ID] autorelease];
-			((CellTextField *)cell).delegate = self;	// so we can detect when cell editing starts
-		}
-		else if (row == 1)
-		{
-			cell = [[[SourceCell alloc] initWithFrame:CGRectZero reuseIdentifier:kSourceCell_ID] autorelease];
-		}
-	}
-	
-	return cell;
+	return ([indexPath row] == 0) ? 50.0 : 22.0;
 }
 
 // to determine which UITableViewCell to be used on a given row.
 //
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-	NSInteger row = [indexPath row];
-	UITableViewCell *sourceCell = [self obtainTableCellForRow:row];
-	
-	switch (indexPath.section)
+	UITableViewCell *cell = nil;
+	NSUInteger row = [indexPath row];
+	if (row == 0)
 	{
-		case kUITextField_Section:
+		static NSString *kCellTextField_ID = @"CellTextField_ID";
+		cell = [tableView dequeueReusableCellWithIdentifier:kCellTextField_ID];
+		if (cell == nil)
 		{
-			if (row == 0)
-			{
-				// this cell hosts the text field control
-				((CellTextField *)sourceCell).view = textField;
-			}
-			else
-			{	
-				// this cell hosts the info on where to find the code
-				((SourceCell *)sourceCell).sourceLabel.text = @"TextFieldController.m - createTextField";
-			}
-			textFieldCell = (CellTextField *)sourceCell;	// kept track for editing
-			break;
+			// a new cell needs to be created
+			cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:kCellTextField_ID] autorelease];
+			cell.selectionStyle = UITableViewCellSelectionStyleNone;
+		}
+		else
+		{
+			// a cell is being recycled, remove the old edit field (if it contains one of our tagged edit fields)
+			UIView *viewToCheck = nil;
+			viewToCheck = [cell.contentView viewWithTag:kViewTag];
+			if (!viewToCheck)
+				[viewToCheck removeFromSuperview];
 		}
 		
-		case kUITextField_Rounded_Custom_Section:
+		UITextField *textField = [[self.dataSourceArray objectAtIndex: indexPath.section] valueForKey:kViewKey];
+		[cell.contentView addSubview:textField];
+	}
+	else /* (row == 1) */
+	{
+		static NSString *kSourceCell_ID = @"SourceCell_ID";
+		cell = [tableView dequeueReusableCellWithIdentifier:kSourceCell_ID];
+		if (cell == nil)
 		{
-			if (row == 0)
-			{
-				// this cell hosts the rounded text field control
-				((CellTextField *)sourceCell).view = textFieldRounded;
-			}
-			else
-			{
-				// this cell hosts the info on where to find the code
-				((SourceCell *)sourceCell).sourceLabel.text = @"TextFieldController.m - createTextField_Rounded";
-			}
-			textFieldRoundedCell = (CellTextField *)sourceCell;	// kept track for editing
-			break;	
+			cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:kSourceCell_ID] autorelease];
+			cell.selectionStyle = UITableViewCellSelectionStyleNone;
+			
+            cell.textLabel.textAlignment = UITextAlignmentCenter;
+            cell.textLabel.textColor = [UIColor grayColor];
+			cell.textLabel.highlightedTextColor = [UIColor blackColor];
+            cell.textLabel.font = [UIFont systemFontOfSize:12];
 		}
 		
-		case kUITextField_Secure_Section:
-		{
-			// we are creating a new cell, setup its attributes
-			if (row == 0)
-			{
-				// this cell hosts the secure text field control
-				((CellTextField *)sourceCell).view = textFieldSecure;
-			}
-			else
-			{
-				// this cell hosts the info on where to find the code
-				((SourceCell *)sourceCell).sourceLabel.text = @"TextFieldController.m - createTextField_Secure";
-			}
-			textFieldSecureCell = (CellTextField *)sourceCell;	// kept track for editing
-			break;
-		}
+		cell.textLabel.text = [[self.dataSourceArray objectAtIndex: indexPath.section] valueForKey:kSourceKey];
 	}
 	
-    return sourceCell;
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
-{
-	return 37.0;
+    return cell;
 }
 
 
 #pragma mark -
-#pragma mark <EditableTableViewCellDelegate> Methods and editing management
+#pragma mark UITextFieldDelegate
 
-- (BOOL)cellShouldBeginEditing:(EditableTableViewCell *)cell
+- (BOOL)textFieldShouldReturn:(UITextField *)textField
 {
-    // notify other cells to end editing
-    if (![cell isEqual:textFieldCell])
-		[textFieldCell stopEditing];
-    if (![cell isEqual:textFieldRoundedCell])
-		[textFieldRoundedCell stopEditing];
-    if (![cell isEqual:textFieldSecureCell])
-		[textFieldSecureCell stopEditing];
+	// the user pressed the "Done" button, so dismiss the keyboard
+	[textField resignFirstResponder];
+	return YES;
+}
+
+
+#pragma mark -
+#pragma mark Text Fields
+
+- (UITextField *)textFieldNormal
+{
+	if (textFieldNormal == nil)
+	{
+		CGRect frame = CGRectMake(kLeftMargin, 8.0, kTextFieldWidth, kTextFieldHeight);
+		textFieldNormal = [[UITextField alloc] initWithFrame:frame];
 		
-    return self.editing;
+		textFieldNormal.borderStyle = UITextBorderStyleBezel;
+		textFieldNormal.textColor = [UIColor blackColor];
+		textFieldNormal.font = [UIFont systemFontOfSize:17.0];
+		textFieldNormal.placeholder = @"<enter text>";
+		textFieldNormal.backgroundColor = [UIColor whiteColor];
+		textFieldNormal.autocorrectionType = UITextAutocorrectionTypeNo;	// no auto correction support
+		
+		textFieldNormal.keyboardType = UIKeyboardTypeDefault;	// use the default type input method (entire keyboard)
+		textFieldNormal.returnKeyType = UIReturnKeyDone;
+		
+		textFieldNormal.clearButtonMode = UITextFieldViewModeWhileEditing;	// has a clear 'x' button to the right
+		
+		textFieldNormal.tag = kViewTag;		// tag this control so we can remove it later for recycled cells
+		
+		textFieldNormal.delegate = self;	// let us be the delegate so we know when the keyboard's "Done" button is pressed
+	}	
+	return textFieldNormal;
 }
 
-- (void)cellDidEndEditing:(EditableTableViewCell *)cell
+- (UITextField *)textFieldRounded
 {
-	if ([cell isEqual:textFieldSecureCell] || [cell isEqual:textFieldRoundedCell])
+	if (textFieldRounded == nil)
 	{
-        // Restore the position of the main view if it was animated to make room for the keyboard.
-        if  (self.view.frame.origin.y < 0)
-		{
-            [self setViewMovedUp:NO];
-        }
-    }
+		CGRect frame = CGRectMake(kLeftMargin, 8.0, kTextFieldWidth, kTextFieldHeight);
+		textFieldRounded = [[UITextField alloc] initWithFrame:frame];
+		
+		textFieldRounded.borderStyle = UITextBorderStyleRoundedRect;
+		textFieldRounded.textColor = [UIColor blackColor];
+		textFieldRounded.font = [UIFont systemFontOfSize:17.0];
+		textFieldRounded.placeholder = @"<enter text>";
+		textFieldRounded.backgroundColor = [UIColor whiteColor];
+		textFieldRounded.autocorrectionType = UITextAutocorrectionTypeNo;	// no auto correction support
+		
+		textFieldRounded.keyboardType = UIKeyboardTypeDefault;
+		textFieldRounded.returnKeyType = UIReturnKeyDone;
+		
+		textFieldRounded.clearButtonMode = UITextFieldViewModeWhileEditing;	// has a clear 'x' button to the right
+		
+		textFieldRounded.tag = kViewTag;		// tag this control so we can remove it later for recycled cells
+		
+		textFieldRounded.delegate = self;	// let us be the delegate so we know when the keyboard's "Done" button is pressed
+	}
+	return textFieldRounded;
 }
 
-// Animate the entire view up or down, to prevent the keyboard from covering the author field.
-- (void)setViewMovedUp:(BOOL)movedUp
+- (UITextField *)textFieldSecure
 {
-    [UIView beginAnimations:nil context:NULL];
-    [UIView setAnimationDuration:0.3];
-    // Make changes to the view's frame inside the animation block. They will be animated instead
-    // of taking place immediately.
-    CGRect rect = self.view.frame;
-    if (movedUp)
+	if (textFieldSecure == nil)
 	{
-        // If moving up, not only decrease the origin but increase the height so the view 
-        // covers the entire screen behind the keyboard.
-        rect.origin.y -= kOFFSET_FOR_KEYBOARD;
-        rect.size.height += kOFFSET_FOR_KEYBOARD;
-    }
-	else
-	{
-        // If moving down, not only increase the origin but decrease the height.
-        rect.origin.y += kOFFSET_FOR_KEYBOARD;
-        rect.size.height -= kOFFSET_FOR_KEYBOARD;
-    }
-    self.view.frame = rect;
-    
-    [UIView commitAnimations];
+		CGRect frame = CGRectMake(kLeftMargin, 8.0, kTextFieldWidth, kTextFieldHeight);
+		textFieldSecure = [[UITextField alloc] initWithFrame:frame];
+		textFieldSecure.borderStyle = UITextBorderStyleBezel;
+		textFieldSecure.textColor = [UIColor blackColor];
+		textFieldSecure.font = [UIFont systemFontOfSize:17.0];
+		textFieldSecure.placeholder = @"<enter password>";
+		textFieldSecure.backgroundColor = [UIColor whiteColor];
+		
+		textFieldSecure.keyboardType = UIKeyboardTypeDefault;
+		textFieldSecure.returnKeyType = UIReturnKeyDone;	
+		textFieldSecure.secureTextEntry = YES;	// make the text entry secure (bullets)
+		
+		textFieldSecure.clearButtonMode = UITextFieldViewModeWhileEditing;	// has a clear 'x' button to the right
+		
+		textFieldSecure.tag = kViewTag;		// tag this control so we can remove it later for recycled cells
+		
+		textFieldSecure.delegate = self;	// let us be the delegate so we know when the keyboard's "Done" button is pressed
+	}
+	return textFieldSecure;
 }
 
-- (void)setEditing:(BOOL)editing animated:(BOOL)animated
+- (UITextField *)textFieldLeftView
 {
-    [super setEditing:editing animated:animated];
-    if (!editing)
+	if (textFieldLeftView == nil)
 	{
-        [textFieldCell stopEditing];
-        [textFieldRoundedCell stopEditing];
-        [textFieldSecureCell stopEditing];
-    }
-}
-
-- (void)keyboardWillShow:(NSNotification *)notif
-{
-    // The keyboard will be shown. If the user is editing the author, adjust the display so that the
-    // author field will not be covered by the keyboard.
-    if ((textFieldRoundedCell.isInlineEditing || textFieldSecureCell.isInlineEditing) && self.view.frame.origin.y >= 0)
-	{
-        [self setViewMovedUp:YES];
-    }
-	else if (!textFieldSecureCell.isInlineEditing && self.view.frame.origin.y < 0)
-	{
-        [self setViewMovedUp:NO];
-    }
-}
-
-
-#pragma mark - UIViewController delegate methods
-
-- (void)viewWillAppear:(BOOL)animated
-{
-    // watch the keyboard so we can adjust the user interface if necessary.
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) 
-            name:UIKeyboardWillShowNotification object:self.view.window]; 
-}
-
-- (void)viewWillDisappear:(BOOL)animated
-{
-    [self setEditing:NO animated:YES];
-	
-    // unregister for keyboard notifications while not visible.
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillShowNotification object:nil]; 
+		CGRect frame = CGRectMake(kLeftMargin, 8.0, kTextFieldWidth, kTextFieldHeight);
+		textFieldLeftView = [[UITextField alloc] initWithFrame:frame];
+		textFieldLeftView.borderStyle = UITextBorderStyleBezel;
+		textFieldLeftView.textColor = [UIColor blackColor];
+		textFieldLeftView.font = [UIFont systemFontOfSize:17.0];
+		textFieldLeftView.placeholder = @"<enter text>";
+		textFieldLeftView.backgroundColor = [UIColor whiteColor];
+		
+		textFieldLeftView.keyboardType = UIKeyboardTypeDefault;
+		textFieldLeftView.returnKeyType = UIReturnKeyDone;	
+		
+		textFieldLeftView.clearButtonMode = UITextFieldViewModeWhileEditing;	// has a clear 'x' button to the right
+		
+		textFieldLeftView.tag = kViewTag;		// tag this control so we can remove it later for recycled cells
+		
+		textFieldLeftView.leftView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"segment_check.png"]];
+		textFieldLeftView.leftViewMode = UITextFieldViewModeAlways;
+		
+		textFieldLeftView.delegate = self;	// let us be the delegate so we know when the keyboard's "Done" button is pressed
+	}
+	return textFieldLeftView;
 }
 
 @end

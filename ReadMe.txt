@@ -1,19 +1,21 @@
 UICatalog
 ==========
 
-This sample is a catalog of all the UI elements found in the iPhone's UIKit framework.  It is designed to exhibit a large variety of views and controls along with all their varying properties and styles.  If you need code to create specific UI controls or views, refer to this sample and it should give you a good head start in building your user interface.  In most cases you can simply copy and paste the code snippets you need.
+This sample is a catalog exhibiting many views and controls in the UIKit framework, along with their various properties and styles.
+If you need code to create specific UI controls or views, refer to this sample and it should give you a good head start in building your user interface.
+In most cases you can simply copy and paste the code snippets you need.
 
 
 Build Requirements
-Mac OS X 10.5.3, Xcode 3.1, iPhone OS 2.0
+Mac OS X 10.5.6 or later, iPhone OS 3.0 SDK
 
 
 Runtime Requirements
-Mac OS X 10.5.3, iPhone OS 2.0
+Mac OS X 10.5.6 or later, iPhone OS 3.0 SDK
 
 
 Using the Sample
-Build and run the sample using Xcode 3.1. To run in the simulator, set the Active SDK to Simulator. To run on a device, set the Active SDK to the appropriate Device setting.
+Build and run the sample using Xcode 3.1.3. To run in the simulator, set the Active SDK to Simulator. To run on a device, set the Active SDK to the appropriate Device setting.
 
 In most areas of this sample, as you see various UI elements, you will see a corresponding explanation as to where you can find the code.  So for example the Buttons page - the gray button will have "ButtonsViewController.m - createGrayButton".  This means refer to the ButtonsViewController.m source file and search for the createGrayButton Objective-C method.
 
@@ -21,7 +23,7 @@ Buttons - This UIViewController or page contains various kinds of UIButton contr
 
 Controls - This page contains other miscellaneous UIControl classes helpful in building your user interface including switch, slider page, and progress indicator.
 
-TextFields - This page hosts different kinds of UITextField controls.  It also demonstrates how to handle the keyboard, particularly with a text field that are placed in the area where the keyboard appears.
+TextFields - This page hosts different kinds of UITextField controls.  It also demonstrates how to handle the keyboard, particularly where text fields are placed.
 
 SearchBar - This pages exhibits the UISearchBar control.
 
@@ -63,12 +65,6 @@ SegmentViewController.h/.m - UIViewController that hosts all the varying UISegme
 ToolbarViewController.h/.m - UIViewController that hosts a UIToolbar and its UIBarButtonItems.
 TransitionViewController.h/.m - UIViewController that shows how to flip between two different views.
 
-DisplayCell.h/DisplayCell.m - a commonly used UITableViewCell for displaying and explaining a given UI element.
-SourceCell.h/SourceCell.m - a commonly used UITableViewCell for explaning "where" to find the code for a given UI element.
-CellTextField.h/CellTextField.m - A type of UITableViewCell used for containing UITextFields.
-CellTextView.h/CellTextField.m - A type of UITableViewCell used for containing UITextViews.
-
-
 Changes from Previous Versions
 1.0 - First release
 1.1 - Updated the user interface layout to show proper use or proper context in using the UIKit controls and views.
@@ -78,6 +74,7 @@ Changes from Previous Versions
 1.5 - Beta 6 Release, updated to use xib file for MainViewController, fixed bad blur effect on UIView classes by properly rounding of coordinates, introduced "UIViewAnimationTransitionCurlUp/UIViewAnimationTransitionCurlDown" UIView transitions, adopted UITextField's "leftView" property.
 1.6 - Minor UI modifications, changed bundle identifier.
 1.7 - Improved custom UIPicker, Updated for and tested with iPhone OS 2.0. First public release.
+2.0 - Upgraded for 3.0 SDK due to deprecated APIs, more use of UITableViewController.
+2.5 - Minor bug fixes, all view controllers created from separate nibs, more use of properties, further code optimizations, added viewDidUnload methods.
 
-
-Copyright (C) 2008 Apple Inc. All rights reserved.
+Copyright (C) 2008-2009 Apple Inc. All rights reserved.

@@ -1,6 +1,6 @@
 /*
-     File: ImagesViewController.m
- Abstract: The view controller for hosting the UIImageView containing multiple images.
+     File: CustomPickerDataSource.m
+ Abstract: The data source for the Custom Picker that displays text and images.
   Version: 2.5
  
  Disclaimer: IMPORTANT:  This Apple software is supplied to you by Apple
@@ -45,88 +45,91 @@
  
  */
 
-#import "ImagesViewController.h"
-#import "Constants.h"
+#import "CustomPickerDataSource.h"
+#import "CustomView.h"
 
-#define kMinDuration 0.0
-#define kMaxDuration 10.0
+@implementation CustomPickerDataSource
 
-@implementation ImagesViewController
+@synthesize customPickerArray;
 
-@synthesize imageView, slider;
+- (id)init
+{
+	// use predetermined frame size
+	self = [super init];
+	if (self)
+	{
+		// create the data source for this custom picker
+		NSMutableArray *viewArray = [[NSMutableArray alloc] init];
+
+		CustomView *earlyMorningView = [[CustomView alloc] initWithFrame:CGRectZero];
+		earlyMorningView.title = @"Early Morning";
+		earlyMorningView.image = [UIImage imageNamed:@"12-6AM.png"];
+		[viewArray addObject:earlyMorningView];
+		[earlyMorningView release];
+
+		CustomView *lateMorningView = [[CustomView alloc] initWithFrame:CGRectZero];
+		lateMorningView.title = @"Late Morning";
+		lateMorningView.image = [UIImage imageNamed:@"6-12AM.png"];
+		[viewArray addObject:lateMorningView];
+		[lateMorningView release];
+
+		CustomView *afternoonView = [[CustomView alloc] initWithFrame:CGRectZero];
+		afternoonView.title = @"Afternoon";
+		afternoonView.image = [UIImage imageNamed:@"12-6PM.png"];
+		[viewArray addObject:afternoonView];
+		[afternoonView release];
+
+		CustomView *eveningView = [[CustomView alloc] initWithFrame:CGRectZero];
+		eveningView.title = @"Evening";
+		eveningView.image = [UIImage imageNamed:@"6-12PM.png"];
+		[viewArray addObject:eveningView];
+		[eveningView release];
+
+		self.customPickerArray = viewArray;
+		[viewArray release];
+	}
+	return self;
+}
 
 - (void)dealloc
 {
-	[imageView release];
-	[slider release];
-	
+	[customPickerArray release];
 	[super dealloc];
-}
-
-- (void)viewDidLoad
-{	
-	[super viewDidLoad];
-	
-	self.title = NSLocalizedString(@"ImagesTitle", @"");
-	
-	// set up our UIImage with a group or array of images to animate (or in our case a slideshow)
-	self.imageView.animationImages = [NSArray arrayWithObjects:
-										[UIImage imageNamed:@"scene1.jpg"],
-										[UIImage imageNamed:@"scene2.jpg"],
-										[UIImage imageNamed:@"scene3.jpg"],
-										[UIImage imageNamed:@"scene4.jpg"],
-										[UIImage imageNamed:@"scene5.jpg"],
-									  nil];
-	imageView.animationDuration = 5.0;
-	[self.imageView stopAnimating];
-}
-
-// called after the view controller's view is released and set to nil.
-// For example, a memory warning which causes the view to be purged. Not invoked as a result of -dealloc.
-// So release any properties that are loaded in viewDidLoad or can be recreated lazily.
-//
-- (void)viewDidUnload
-{
-	[super viewDidUnload];
-	
-	self.imageView = nil;
-	self.slider = nil;
-}
-
-// slown down or speed up the slide show as the slider is moved
-- (IBAction)sliderAction:(id)sender
-{
-	UISlider* durationSlider = sender;
-	self.imageView.animationDuration = [durationSlider value];
-	if (!self.imageView.isAnimating)
-		[self.imageView startAnimating];
 }
 
 
 #pragma mark -
-#pragma mark UIViewController delegate methods
+#pragma mark UIPickerViewDataSource
 
-// called after this controller's view was dismissed, covered or otherwise hidden
-- (void)viewWillDisappear:(BOOL)animated
-{	
-	[self.imageView stopAnimating];
-	
-	// restore the nav bar and status bar color to default
-	self.navigationController.navigationBar.barStyle = UIBarStyleDefault;
-	[UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleDefault;
+- (CGFloat)pickerView:(UIPickerView *)pickerView widthForComponent:(NSInteger)component
+{
+	return [CustomView viewWidth];
 }
 
-// called after this controller's view will appear
-- (void)viewWillAppear:(BOOL)animated
-{	
-	[self.imageView startAnimating];
-	
-	// for aesthetic reasons (the background is black), make the nav bar black for this particular page
-	self.navigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
-	
-	// match the status bar with the nav bar
-	[UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleBlackOpaque;
+- (CGFloat)pickerView:(UIPickerView *)pickerView rowHeightForComponent:(NSInteger)component
+{
+	return [CustomView viewHeight];
+}
+
+- (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component
+{
+	return [customPickerArray count];
+}
+
+- (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView
+{
+	return 1;
+}
+
+
+#pragma mark -
+#pragma mark UIPickerViewDelegate
+
+// tell the picker which view to use for a given component and row, we have an array of views to show
+- (UIView *)pickerView:(UIPickerView *)pickerView viewForRow:(NSInteger)row
+		  forComponent:(NSInteger)component reusingView:(UIView *)view
+{
+	return [customPickerArray objectAtIndex:row];
 }
 
 @end
-

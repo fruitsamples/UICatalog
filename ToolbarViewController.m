@@ -1,50 +1,49 @@
 /*
-
-File: ToolbarViewController.m
-Abstract: The view controller for hosting the UIToolbar and UIBarButtonItem
-features of this sample.
-
-Version: 1.7
-
-Disclaimer: IMPORTANT:  This Apple software is supplied to you by Apple Inc.
-("Apple") in consideration of your agreement to the following terms, and your
-use, installation, modification or redistribution of this Apple software
-constitutes acceptance of these terms.  If you do not agree with these terms,
-please do not use, install, modify or redistribute this Apple software.
-
-In consideration of your agreement to abide by the following terms, and subject
-to these terms, Apple grants you a personal, non-exclusive license, under
-Apple's copyrights in this original Apple software (the "Apple Software"), to
-use, reproduce, modify and redistribute the Apple Software, with or without
-modifications, in source and/or binary forms; provided that if you redistribute
-the Apple Software in its entirety and without modifications, you must retain
-this notice and the following text and disclaimers in all such redistributions
-of the Apple Software.
-Neither the name, trademarks, service marks or logos of Apple Inc. may be used
-to endorse or promote products derived from the Apple Software without specific
-prior written permission from Apple.  Except as expressly stated in this notice,
-no other rights or licenses, express or implied, are granted by Apple herein,
-including but not limited to any patent rights that may be infringed by your
-derivative works or by other works in which the Apple Software may be
-incorporated.
-
-The Apple Software is provided by Apple on an "AS IS" basis.  APPLE MAKES NO
-WARRANTIES, EXPRESS OR IMPLIED, INCLUDING WITHOUT LIMITATION THE IMPLIED
-WARRANTIES OF NON-INFRINGEMENT, MERCHANTABILITY AND FITNESS FOR A PARTICULAR
-PURPOSE, REGARDING THE APPLE SOFTWARE OR ITS USE AND OPERATION ALONE OR IN
-COMBINATION WITH YOUR PRODUCTS.
-
-IN NO EVENT SHALL APPLE BE LIABLE FOR ANY SPECIAL, INDIRECT, INCIDENTAL OR
-CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE
-GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
-ARISING IN ANY WAY OUT OF THE USE, REPRODUCTION, MODIFICATION AND/OR
-DISTRIBUTION OF THE APPLE SOFTWARE, HOWEVER CAUSED AND WHETHER UNDER THEORY OF
-CONTRACT, TORT (INCLUDING NEGLIGENCE), STRICT LIABILITY OR OTHERWISE, EVEN IF
-APPLE HAS BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-
-Copyright (C) 2008 Apple Inc. All Rights Reserved.
-
-*/
+     File: ToolbarViewController.m
+ Abstract: The view controller for hosting the UIToolbar and UIBarButtonItem features of this sample.
+  Version: 2.5
+ 
+ Disclaimer: IMPORTANT:  This Apple software is supplied to you by Apple
+ Inc. ("Apple") in consideration of your agreement to the following
+ terms, and your use, installation, modification or redistribution of
+ this Apple software constitutes acceptance of these terms.  If you do
+ not agree with these terms, please do not use, install, modify or
+ redistribute this Apple software.
+ 
+ In consideration of your agreement to abide by the following terms, and
+ subject to these terms, Apple grants you a personal, non-exclusive
+ license, under Apple's copyrights in this original Apple software (the
+ "Apple Software"), to use, reproduce, modify and redistribute the Apple
+ Software, with or without modifications, in source and/or binary forms;
+ provided that if you redistribute the Apple Software in its entirety and
+ without modifications, you must retain this notice and the following
+ text and disclaimers in all such redistributions of the Apple Software.
+ Neither the name, trademarks, service marks or logos of Apple Inc. may
+ be used to endorse or promote products derived from the Apple Software
+ without specific prior written permission from Apple.  Except as
+ expressly stated in this notice, no other rights or licenses, express or
+ implied, are granted by Apple herein, including but not limited to any
+ patent rights that may be infringed by your derivative works or by other
+ works in which the Apple Software may be incorporated.
+ 
+ The Apple Software is provided by Apple on an "AS IS" basis.  APPLE
+ MAKES NO WARRANTIES, EXPRESS OR IMPLIED, INCLUDING WITHOUT LIMITATION
+ THE IMPLIED WARRANTIES OF NON-INFRINGEMENT, MERCHANTABILITY AND FITNESS
+ FOR A PARTICULAR PURPOSE, REGARDING THE APPLE SOFTWARE OR ITS USE AND
+ OPERATION ALONE OR IN COMBINATION WITH YOUR PRODUCTS.
+ 
+ IN NO EVENT SHALL APPLE BE LIABLE FOR ANY SPECIAL, INDIRECT, INCIDENTAL
+ OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ INTERRUPTION) ARISING IN ANY WAY OUT OF THE USE, REPRODUCTION,
+ MODIFICATION AND/OR DISTRIBUTION OF THE APPLE SOFTWARE, HOWEVER CAUSED
+ AND WHETHER UNDER THEORY OF CONTRACT, TORT (INCLUDING NEGLIGENCE),
+ STRICT LIABILITY OR OTHERWISE, EVEN IF APPLE HAS BEEN ADVISED OF THE
+ POSSIBILITY OF SUCH DAMAGE.
+ 
+ Copyright (C) 2009 Apple Inc. All Rights Reserved.
+ 
+ */
 
 #import "ToolbarViewController.h"
 #import "AppDelegate.h"
@@ -52,23 +51,19 @@ Copyright (C) 2008 Apple Inc. All Rights Reserved.
 
 @implementation ToolbarViewController
 
-- (id)init
-{
-	self = [super init];
-	if (self)
-	{
-		// this title will appear in the navigation bar
-		self.title = NSLocalizedString(@"ToolbarTitle", @"");
-	}
-	return self;
-}
-
+@synthesize barStyleSegControl, tintSwitch, buttonItemStyleSegControl, systemButtonPicker;
+@synthesize toolbar, pickerViewArray;
 
 - (void)dealloc
 {	
     [toolbar release];
 	[pickerViewArray release];
-	[styleSegmentedControl release];
+	
+	[barStyleSegControl release];
+	[tintSwitch release];
+	[buttonItemStyleSegControl release];
+	[systemButtonPicker release];
+	
 	[super dealloc];
 }
 
@@ -77,61 +72,16 @@ Copyright (C) 2008 Apple Inc. All Rights Reserved.
 {
 	CGRect screenRect = [[UIScreen mainScreen] applicationFrame];
 	CGRect pickerRect = CGRectMake(	0.0,
-								   screenRect.size.height - kToolbarHeight - 44.0 - size.height,
+								   screenRect.size.height - 84.0 - size.height,
 								   size.width,
 								   size.height);
 	return pickerRect;
 }
 
-- (void)createPicker
-{
-	// this list appears in the UIPickerView to pick the system's UIBarButtonItem
-	pickerViewArray = [[NSArray arrayWithObjects:
-						@"Done",
-						@"Cancel",
-						@"Edit",  
-						@"Save",  
-						@"Add",
-						@"FlexibleSpace",
-						@"FixedSpace",
-						@"Compose",
-						@"Reply",
-						@"Action",
-						@"Organize",
-						@"Bookmarks",
-						@"Search",
-						@"Refresh",
-						@"Stop",
-						@"Camera",
-						@"Trash",
-						@"Play",
-						@"Pause",
-						@"Rewind",
-						@"FastForward",
-						nil] retain];
-	
-	// note we are using CGRectZero for the dimensions of our picker view,
-	// this is because picker views have a built in optimum size,
-	// you just need to set the correct origin in your view.
-	//
-	// position the picker at the bottom
-	UIPickerView *myPickerView = [[UIPickerView alloc] initWithFrame:CGRectZero];
-	CGSize pickerSize = [myPickerView sizeThatFits:CGSizeZero];
-	myPickerView.frame = [self pickerFrameWithSize:pickerSize];
-	
-	myPickerView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-	myPickerView.delegate = self;
-	myPickerView.showsSelectionIndicator = YES;	// note this is default to NO
-	
-	// add this picker to our view controller, initially hidden
-	[self.view addSubview:myPickerView];
-	[myPickerView release];
-}
-
 - (void)createToolbarItems
 {	
 	// match each of the toolbar item's style match the selection in the "UIBarButtonItemStyle" segmented control
-	UIBarButtonItemStyle style = [styleSegmentedControl selectedSegmentIndex];
+	UIBarButtonItemStyle style = [self.buttonItemStyleSegControl selectedSegmentIndex];
 
 	// create the system-defined "OK or Done" button
     UIBarButtonItem *systemItem = [[UIBarButtonItem alloc]
@@ -157,7 +107,7 @@ Copyright (C) 2008 Apple Inc. All Rights Reserved.
 																   action:@selector(action:)];
 	
 	NSArray *items = [NSArray arrayWithObjects: systemItem, flexItem, customItem, infoItem, nil];
-	[toolbar setItems:items animated:NO];
+	[self.toolbar setItems:items animated:NO];
 	
 	[systemItem release];
 	[flexItem release];
@@ -165,94 +115,54 @@ Copyright (C) 2008 Apple Inc. All Rights Reserved.
 	[customItem release];
 }
 
-- (void)loadView
+// called after the view controller's view is released and set to nil.
+// For example, a memory warning which causes the view to be purged. Not invoked as a result of -dealloc.
+// So release any properties that are loaded in viewDidLoad or can be recreated lazily.
+//
+- (void)viewDidUnload
 {
-	CGRect screenRect = [[UIScreen mainScreen] applicationFrame];
+	[super viewDidUnload];
 	
-	// setup our parent content view and embed it to your view controller
-	//
-	UIView *contentView = [[UIView alloc] initWithFrame:[[UIScreen mainScreen] applicationFrame]];
-	contentView.autoresizesSubviews = YES;
-	contentView.autoresizingMask = (UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight);
-	contentView.backgroundColor = [UIColor groupTableViewBackgroundColor];	// use the table view background color
-	self.view = contentView;
-	[contentView release];
+	// release and set to nil
+	self.pickerViewArray = nil;
+	self.toolbar = nil;
+}
+
+- (void)viewDidLoad
+{
+	[super viewDidLoad];
 	
-	// create the segmented control to control the style content of the bottom UIToolbar
-	//
-	styleSegmentedControl = [[UISegmentedControl alloc] initWithItems:
-												[NSArray arrayWithObjects:@"Plain", @"Bordered", @"Done", nil]];
-	[styleSegmentedControl addTarget:self action:@selector(toggleStyle:) forControlEvents:UIControlEventValueChanged];
-	styleSegmentedControl.segmentedControlStyle = UISegmentedControlStyleBar;
-    styleSegmentedControl.backgroundColor = [UIColor clearColor];
-	[styleSegmentedControl sizeToFit];
-	styleSegmentedControl.selectedSegmentIndex = 0;
-	CGRect segmentedControlFrame = CGRectMake(kRightMargin,
-											  kTweenMargin + 20.0,
-											  screenRect.size.width - (kRightMargin * 2.0),
-											  kSegmentedControlHeight);
-    styleSegmentedControl.frame = segmentedControlFrame;
-	[self.view addSubview:styleSegmentedControl];
-	[styleSegmentedControl release];
+	// this list appears in the UIPickerView to pick the system's UIBarButtonItem
+	self.pickerViewArray = [NSArray arrayWithObjects:
+									@"Done",
+									@"Cancel",
+									@"Edit",  
+									@"Save",  
+									@"Add",
+									@"FlexibleSpace",
+									@"FixedSpace",
+									@"Compose",
+									@"Reply",
+									@"Action",
+									@"Organize",
+									@"Bookmarks",
+									@"Search",
+									@"Refresh",
+									@"Stop",
+									@"Camera",
+									@"Trash",
+									@"Play",
+									@"Pause",
+									@"Rewind",
+									@"FastForward",
+									// new in 3.0 SDK:
+									@"Undo",
+									@"Redo",
+								nil];
 	
-	// create the label for our UIBarButtonItemStyle segmented control
-	//
-	CGRect labelFrame = CGRectMake(	0.0,
-									kTweenMargin,
-									self.view.bounds.size.width,
-									20.0);
-	UILabel *label = [[UILabel alloc] initWithFrame:labelFrame];
-    label.font = [UIFont systemFontOfSize: 12];
-	label.text = @"UIBarButtonItemStyle";
-	label.textAlignment = UITextAlignmentCenter;
-	label.textColor = [UIColor blackColor];
-	label.backgroundColor = [UIColor clearColor];
-	[self.view addSubview:label];
-	[label release];
+	self.title = NSLocalizedString(@"ToolbarTitle", @"");
 	
-	// create the segmented control to control the style content of the bottom UIToolbar
-	//
-	UISegmentedControl *segmentedControl = [[UISegmentedControl alloc] initWithItems:
-											[NSArray arrayWithObjects:@"Default", @"Black", @"Translucent", nil]];
-	[segmentedControl addTarget:self action:@selector(toggleBarStyle:) forControlEvents:UIControlEventValueChanged];
-	segmentedControl.segmentedControlStyle = UISegmentedControlStyleBar;
-    segmentedControl.backgroundColor = [UIColor clearColor];
-	[segmentedControl sizeToFit];
-	segmentedControl.selectedSegmentIndex = 0;
-	segmentedControlFrame = CGRectMake(	kRightMargin,
-										75.0 + 20.0,
-										screenRect.size.width - (kRightMargin * 2.0),
-										kSegmentedControlHeight);
-    segmentedControl.frame = segmentedControlFrame;
-	[self.view addSubview:segmentedControl];
-	[segmentedControl release];
-	
-	// create the label for our UIBarStyle segmented control
-	//
-	labelFrame = CGRectMake(0.0, 70.0, self.view.bounds.size.width, kTextFieldHeight);
-	label = [[UILabel alloc] initWithFrame:labelFrame];
-    label.font = [UIFont systemFontOfSize: 12];
-	label.text = @"UIBarStyle";
-	label.textAlignment = UITextAlignmentCenter;
-	label.textColor = [UIColor blackColor];
-	label.backgroundColor = [UIColor clearColor];
-	[self.view addSubview:label];
-	[label release];
-	
-	// create the picker to choose between UIBarButtonSystemItems
-	[self createPicker];
-	
-	// create the label for our UIBarStyle segmented control
-	//
-	labelFrame = CGRectMake(0.0, 135.0, self.view.bounds.size.width, kTextFieldHeight);
-	label = [[UILabel alloc] initWithFrame:labelFrame];
-    label.font = [UIFont systemFontOfSize: 12];
-	label.text = @"UIBarButtonSystemItem";
-	label.textAlignment = UITextAlignmentCenter;
-	label.textColor = [UIColor blackColor];
-	label.backgroundColor = [UIColor clearColor];
-	[self.view addSubview:label];
-	[label release];
+	self.view.backgroundColor = [UIColor groupTableViewBackgroundColor];	// use the table view background color
 	
 	// create the UIToolbar at the bottom of the view controller
 	//
@@ -274,7 +184,7 @@ Copyright (C) 2008 Apple Inc. All Rights Reserved.
 	[self createToolbarItems];
 }
 
-- (void)toggleStyle:(id)sender
+- (IBAction)toggleStyle:(id)sender
 {
 	UIBarButtonItemStyle style = UIBarButtonItemStylePlain;
 	
@@ -305,7 +215,7 @@ Copyright (C) 2008 Apple Inc. All Rights Reserved.
 	}
 }
 
-- (void)toggleBarStyle:(id)sender
+- (IBAction)toggleBarStyle:(id)sender
 {
 	switch ([sender selectedSegmentIndex])
 	{
@@ -321,23 +231,31 @@ Copyright (C) 2008 Apple Inc. All Rights Reserved.
 	}
 }
 
-- (void)action:(id)sender
+- (IBAction)toggleTintColor:(id)sender
 {
-	NSLog(@"UIBarButtonItem clicked");
+	UISwitch *switchCtl = (UISwitch *)sender;
+	if (switchCtl.on)
+	{
+		toolbar.tintColor = [UIColor redColor];
+		barStyleSegControl.enabled = NO;
+		barStyleSegControl.alpha = 0.50;
+	}
+	else
+	{
+		toolbar.tintColor = nil; // no color
+		barStyleSegControl.enabled = YES;
+		barStyleSegControl.alpha = 1.0;
+	}
 }
 
-- (void)didReceiveMemoryWarning
+- (void)action:(id)sender
 {
-	// Invoke super's implementation to do the Right Thing, but also release the input controller since we can do that	
-	// In paractice this is unlikely to be used in this application, and it would be of little benefit,
-	// but the principle is the imporant thing
-	//
-	[super didReceiveMemoryWarning];
+	//NSLog(@"UIBarButtonItem clicked");
 }
 
 
 #pragma mark -
-#pragma mark PickerView delegate methods
+#pragma mark UIPickerViewDelegate
 
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component
 {
@@ -345,6 +263,10 @@ Copyright (C) 2008 Apple Inc. All Rights Reserved.
 	currentSystemItem = [pickerView selectedRowInComponent:0];
 	[self createToolbarItems];	// this will re-create all the items
 }
+
+
+#pragma mark -
+#pragma mark UIPickerViewDataSource
 
 - (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component
 {

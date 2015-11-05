@@ -1,6 +1,6 @@
 /*
-     File: ButtonsViewController.h
- Abstract: The table view controller for hosting the UIButton features of this sample.
+     File: CustomPickerDataSource.h
+ Abstract: The data source for the Custom Picker that displays text and images.
   Version: 2.5
  
  Disclaimer: IMPORTANT:  This Apple software is supplied to you by Apple
@@ -45,36 +45,11 @@
  
  */
 
-#import <UIKit/UIKit.h>
-
-@interface ButtonsViewController : UITableViewController
+@interface CustomPickerDataSource : NSObject <UIPickerViewDataSource, UIPickerViewDelegate>
 {
-	UIButton *grayButton;
-	UIButton *imageButton;
-	UIButton *roundedButtonType;
-	
-	UIButton *detailDisclosureButtonType;
-	
-	UIButton *infoLightButtonType;
-	UIButton *infoDarkButtonType;
-	
-	UIButton *contactAddButtonType;
-	
-	NSArray *dataSourceArray;
+	NSArray	*customPickerArray;
 }
 
-@property (nonatomic, retain, readonly) UIButton *grayButton;
-@property (nonatomic, retain, readonly) UIButton *imageButton;
-@property (nonatomic, retain, readonly) UIButton *roundedButtonType;
-
-@property (nonatomic, retain, readonly) UIButton *detailDisclosureButtonType;
-
-@property (nonatomic, retain, readonly) UIButton *infoLightButtonType;
-@property (nonatomic, retain, readonly) UIButton *infoDarkButtonType;
-
-@property (nonatomic, retain, readonly) UIButton *contactAddButtonType;
-
-@property (nonatomic, retain) NSArray *dataSourceArray;
+@property (nonatomic, retain) NSArray *customPickerArray;
 
 @end
-
