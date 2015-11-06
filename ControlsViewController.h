@@ -1,7 +1,7 @@
 /*
      File: ControlsViewController.h
  Abstract: The view controller for hosting the UIControls features of this sample.
-  Version: 2.9
+  Version: 2.10
  
  Disclaimer: IMPORTANT:  This Apple software is supplied to you by Apple
  Inc. ("Apple") in consideration of your agreement to the following
@@ -48,25 +48,21 @@
 #import <UIKit/UIKit.h>
 
 @interface ControlsViewController : UITableViewController
-{
-	UISwitch				*switchCtl;
-	UISlider				*sliderCtl;
-	UISlider				*customSlider;
-	UIPageControl			*pageControl;
-	UIActivityIndicatorView	*progressInd;
-	UIProgressView			*progressBar;
-	
-	NSArray					*dataSourceArray;
-}
 
 @property (nonatomic, retain, readonly) UISwitch *switchCtl;
 @property (nonatomic, retain, readonly) UISlider *sliderCtl;
 @property (nonatomic, retain, readonly) UISlider *customSlider;
 @property (nonatomic, retain, readonly) UIPageControl *pageControl;
-@property (nonatomic, retain, readonly) UIActivityIndicatorView *progressInd;
-@property (nonatomic, retain, readonly) UIProgressView *progressBar;
 
-@property (nonatomic, retain) NSArray *dataSourceArray;
+@property (nonatomic, retain, readonly) UIActivityIndicatorView *progressInd;
+@property (nonatomic, retain) UIColor *progressIndSavedColor;
+
+@property (nonatomic, retain, readonly) UIProgressView *progressBar;
+@property (nonatomic, retain, readonly) UIStepper *stepper;
+
+@property (nonatomic, retain) NSMutableArray *dataSourceArray;
+
+
 
 @end
 

@@ -1,7 +1,7 @@
 /*
      File: SegmentViewController.m 
  Abstract: The view controller for hosting the UISegmentedControl features of this sample. 
-  Version: 2.9 
+  Version: 2.10 
   
  Disclaimer: IMPORTANT:  This Apple software is supplied to you by Apple 
  Inc. ("Apple") in consideration of your agreement to the following 
@@ -47,9 +47,11 @@
 
 #import "SegmentViewController.h"
 #import "Constants.h"
+#import <CoreText/CoreText.h>
 
 #define kSegmentedControlHeight 40.0
 #define kLabelHeight			20.0
+
 
 @implementation SegmentViewController
 
@@ -163,7 +165,7 @@
 		
 #pragma mark -
 #pragma mark UISegmentedControl (red-tinted)
-	segmentedControl = [[UISegmentedControl alloc] initWithItems:segmentTextContent];
+	segmentedControl = [[[UISegmentedControl alloc] initWithItems:segmentTextContent] autorelease];
 	yPlacement += kTweenMargin + kLabelHeight;
 	frame = CGRectMake(	kLeftMargin,
 						yPlacement,
@@ -176,7 +178,58 @@
 	segmentedControl.selectedSegmentIndex = 1;
 	
 	[self.view addSubview:segmentedControl];
-	[segmentedControl release];
+    
+#pragma mark -
+#pragma mark UISegmentedControl (image background)
+	// provide tint coloring and background image only if its available
+    if ([segmentedControl respondsToSelector:@selector(setBackgroundImage:forState:barMetrics:)])
+    {
+        // label
+        yPlacement += (kTweenMargin * 2.0) + kSegmentedControlHeight;
+        frame = CGRectMake(	kLeftMargin,
+                           yPlacement,
+                           self.view.bounds.size.width,
+                           kLabelHeight);
+        [self.view addSubview:[SegmentViewController labelWithFrame:frame
+                                                              title:@"UISegmentControlStyleBar: (image)"]];
+    
+        segmentedControl = [[UISegmentedControl alloc] initWithItems:segmentTextContent];
+        yPlacement += kTweenMargin + kLabelHeight;
+        frame = CGRectMake(	kLeftMargin,
+                           yPlacement,
+                           self.view.bounds.size.width - (kRightMargin * 2.0),
+                           kSegmentedControlHeight);
+        segmentedControl.frame = frame;
+        [segmentedControl addTarget:self
+                             action:@selector(segmentAction:)
+                   forControlEvents:UIControlEventValueChanged];
+        segmentedControl.segmentedControlStyle = UISegmentedControlStyleBar;	
+        segmentedControl.selectedSegmentIndex = 1;
+        [segmentedControl setBackgroundImage:[UIImage imageNamed:@"segmentedBackground"]
+                                                         forState:UIControlStateNormal
+                                                      barMetrics:UIBarMetricsDefault];
+        
+        [segmentedControl setDividerImage:[UIImage imageNamed:@"divider"]
+                      forLeftSegmentState:UIControlStateNormal
+                        rightSegmentState:UIControlStateNormal
+                               barMetrics:UIBarMetricsDefault];
+        
+        NSDictionary* textAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
+                                            [UIColor blueColor], UITextAttributeTextColor,
+                                            [UIFont systemFontOfSize:13], UITextAttributeFont,
+                                        nil];
+        [segmentedControl setTitleTextAttributes:textAttributes forState:UIControlStateNormal];
+        
+        textAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
+                                        [UIColor redColor], UITextAttributeTextColor,
+                                        [UIFont systemFontOfSize:13], UITextAttributeFont,
+                                        nil];
+        [segmentedControl setTitleTextAttributes:textAttributes forState:UIControlStateHighlighted];
+        
+        
+        [self.view addSubview:segmentedControl];
+        [segmentedControl release];
+    }
 #pragma mark -
 }
 

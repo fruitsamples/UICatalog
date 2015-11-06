@@ -1,7 +1,7 @@
 /*
      File: Constants.h
  Abstract: Common constants across source files (screen coordinate consts, etc.)
-  Version: 2.9
+  Version: 2.10
  
  Disclaimer: IMPORTANT:  This Apple software is supplied to you by Apple
  Inc. ("Apple") in consideration of your agreement to the following
@@ -53,6 +53,6 @@
 #define kLeftMargin				20.0
 #define kTopMargin				20.0
 #define kRightMargin			20.0
-#define kTweenMargin			10.0
+#define kTweenMargin			6.0
 
 #define kTextFieldHeight		30.0

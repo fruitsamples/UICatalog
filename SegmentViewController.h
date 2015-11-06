@@ -1,7 +1,7 @@
 /*
      File: SegmentViewController.h
  Abstract: The view controller for hosting the UISegmentedControl features of this sample.
-  Version: 2.9
+  Version: 2.10
  
  Disclaimer: IMPORTANT:  This Apple software is supplied to you by Apple
  Inc. ("Apple") in consideration of your agreement to the following
@@ -48,6 +48,5 @@
 #import <UIKit/UIKit.h>
 
 @interface SegmentViewController : UIViewController
-{ }
 
 @end

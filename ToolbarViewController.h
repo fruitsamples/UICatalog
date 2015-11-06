@@ -1,7 +1,7 @@
 /*
      File: ToolbarViewController.h
  Abstract: The view controller for hosting the UIToolbar and UIBarButtonItem features of this sample.
-  Version: 2.9
+  Version: 2.10
  
  Disclaimer: IMPORTANT:  This Apple software is supplied to you by Apple
  Inc. ("Apple") in consideration of your agreement to the following
@@ -48,27 +48,24 @@
 #import <UIKit/UIKit.h>
 
 @interface ToolbarViewController : UIViewController <UINavigationBarDelegate, UIPickerViewDelegate, UIPickerViewDataSource>
-{
-	UISegmentedControl		*barStyleSegControl;
-	UISwitch				*tintSwitch;
-	UISegmentedControl		*buttonItemStyleSegControl;
-	UIPickerView			*systemButtonPicker;
-	
-	UIToolbar				*toolbar;	// created programmatically, not in IB
-	NSArray					*pickerViewArray;
-	UIBarButtonSystemItem	currentSystemItem;
-}
 
 @property (nonatomic, retain) IBOutlet UISegmentedControl *barStyleSegControl;
 @property (nonatomic, retain) IBOutlet UISwitch *tintSwitch;
+
+@property (nonatomic, retain) IBOutlet UISwitch *imageSwitch;
+@property (nonatomic, retain) IBOutlet UILabel *imageSwitchLabel;
+
 @property (nonatomic, retain) IBOutlet UISegmentedControl *buttonItemStyleSegControl;
 @property (nonatomic, retain) IBOutlet UIPickerView *systemButtonPicker;
 
 @property (nonatomic, retain) UIToolbar	*toolbar;
 @property (nonatomic, retain) NSArray *pickerViewArray;
 
+@property (nonatomic, assign) UIBarButtonSystemItem	currentSystemItem;
+
 - (IBAction)toggleStyle:(id)sender;
 - (IBAction)toggleBarStyle:(id)sender;
 - (IBAction)toggleTintColor:(id)sender;
+- (IBAction)toggleImage:(id)sender;
 
 @end

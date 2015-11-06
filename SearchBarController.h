@@ -1,7 +1,7 @@
 /*
      File: SearchBarController.h
  Abstract: The view controller for hosting the UISearchBar features of this sample.
-  Version: 2.9
+  Version: 2.10
  
  Disclaimer: IMPORTANT:  This Apple software is supplied to you by Apple
  Inc. ("Apple") in consideration of your agreement to the following
@@ -48,11 +48,11 @@
 #import <UIKit/UIKit.h>
 
 @interface SearchBarController : UIViewController <UISearchBarDelegate>
-{
-	UISearchBar	*mySearchBar;
-}
 
 @property (nonatomic, retain) UISearchBar *mySearchBar;
+@property (nonatomic, retain) IBOutlet UISegmentedControl *contentOptions;
+
+- (IBAction)contentChoice:(id)sender;
 
 @end
 

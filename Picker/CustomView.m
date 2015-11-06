@@ -1,7 +1,7 @@
 /*
      File: CustomView.m 
  Abstract: The custom view holding the image and title for the custom picker. 
-  Version: 2.9 
+  Version: 2.10 
   
  Disclaimer: IMPORTANT:  This Apple software is supplied to you by Apple 
  Inc. ("Apple") in consideration of your agreement to the following 

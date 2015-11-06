@@ -1,7 +1,7 @@
 /*
      File: TextFieldController.m 
  Abstract: The view controller for hosting the UITextField features of this sample. 
-  Version: 2.9 
+  Version: 2.10 
   
  Disclaimer: IMPORTANT:  This Apple software is supplied to you by Apple 
  Inc. ("Apple") in consideration of your agreement to the following 
@@ -332,7 +332,9 @@ const NSInteger kViewTag = 1;
 		// Add an accessibility label that describes the text field.
 		[textFieldLeftView setAccessibilityLabel:NSLocalizedString(@"CheckMarkIcon", @"")];
 		
-		textFieldLeftView.leftView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"segment_check.png"]];
+		UIImageView *image = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"segment_check.png"]];
+        textFieldLeftView.leftView = image;
+        [image release];
 		textFieldLeftView.leftViewMode = UITextFieldViewModeAlways;
 		
 		textFieldLeftView.delegate = self;	// let us be the delegate so we know when the keyboard's "Done" button is pressed

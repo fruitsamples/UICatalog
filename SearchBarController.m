@@ -1,7 +1,7 @@
 /*
      File: SearchBarController.m 
  Abstract: The view controller for hosting the UISearchBar features of this sample. 
-  Version: 2.9 
+  Version: 2.10 
   
  Disclaimer: IMPORTANT:  This Apple software is supplied to you by Apple 
  Inc. ("Apple") in consideration of your agreement to the following 
@@ -47,13 +47,19 @@
 
 #import "SearchBarController.h"
 
+@interface SearchBarController (forwardDeclarations)
+- (void)tintAction:(id)sender;
+@end
+
 @implementation SearchBarController
 
-@synthesize mySearchBar;
+@synthesize mySearchBar, contentOptions;
 
 - (void)dealloc
 {
 	[mySearchBar release];
+    [contentOptions release];
+    
 	[super dealloc];
 }
 
@@ -68,10 +74,15 @@
 	self.mySearchBar = [[[UISearchBar alloc] initWithFrame:CGRectMake(0.0, 0.0, self.view.bounds.size.width, 44.0)] autorelease];
 	self.mySearchBar.delegate = self;
 	self.mySearchBar.showsCancelButton = YES;
-	
-	// note: here you can also change its "tintColor" property to a different UIColor
-	
+    self.mySearchBar.showsBookmarkButton = YES;
 	[self.view addSubview: self.mySearchBar];
+    
+    // provide tint coloring and background image only if its available
+    if (![self.mySearchBar respondsToSelector:@selector(setSearchFieldBackgroundImage:forState:)])
+    {
+        // hide the segmented control allowing for various content options
+        self.contentOptions.hidden = YES;
+    }
 }
 
 // called after the view controller's view is released and set to nil.
@@ -84,11 +95,50 @@
 	
 	// release and set to nil
 	self.mySearchBar = nil;
+    self.contentOptions = nil;
+}
+
+- (IBAction)contentChoice:(id)sender
+{
+    self.mySearchBar.tintColor = nil;
+    self.mySearchBar.backgroundImage = nil;
+    [self.mySearchBar setImage:nil
+              forSearchBarIcon:UISearchBarIconBookmark
+                         state:UIControlStateNormal];
+    
+    switch (((UISegmentedControl *)sender).selectedSegmentIndex)
+    {
+        case 1:
+        {
+            // tinted background
+            self.mySearchBar.tintColor = [UIColor blueColor];
+            break;
+        }
+            
+        case 2:
+        {
+            // image background
+            self.mySearchBar.backgroundImage = [UIImage imageNamed:@"searchBarBackground"];
+            [self.mySearchBar setImage:[UIImage imageNamed:@"bookmarkImage"]
+                      forSearchBarIcon:UISearchBarIconBookmark
+                                 state:UIControlStateNormal];
+            [self.mySearchBar setImage:[UIImage imageNamed:@"bookmarkImageHighlighted"]
+                      forSearchBarIcon:UISearchBarIconBookmark
+                                 state:UIControlStateHighlighted];
+            break;
+        }
+    }
 }
 
 
 #pragma mark -
 #pragma mark UISearchBarDelegate
+
+// called when the bookmark button inside the search bar is tapped
+- (void)searchBarBookmarkButtonClicked:(UISearchBar *)searchBar
+{
+    //..
+}
 
 // called when keyboard search button pressed
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar

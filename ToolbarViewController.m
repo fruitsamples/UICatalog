@@ -1,7 +1,7 @@
 /*
      File: ToolbarViewController.m 
  Abstract: The view controller for hosting the UIToolbar and UIBarButtonItem features of this sample. 
-  Version: 2.9 
+  Version: 2.10 
   
  Disclaimer: IMPORTANT:  This Apple software is supplied to you by Apple 
  Inc. ("Apple") in consideration of your agreement to the following 
@@ -51,8 +51,9 @@
 
 @implementation ToolbarViewController
 
-@synthesize barStyleSegControl, tintSwitch, buttonItemStyleSegControl, systemButtonPicker;
-@synthesize toolbar, pickerViewArray;
+@synthesize barStyleSegControl, tintSwitch, imageSwitch, imageSwitchLabel;
+@synthesize buttonItemStyleSegControl, systemButtonPicker;
+@synthesize toolbar, pickerViewArray, currentSystemItem;
 
 - (void)dealloc
 {	
@@ -63,6 +64,9 @@
 	[tintSwitch release];
 	[buttonItemStyleSegControl release];
 	[systemButtonPicker release];
+    
+    [imageSwitch release];
+    [imageSwitchLabel release];
 	
 	[super dealloc];
 }
@@ -133,6 +137,9 @@
 	// release and set to nil
 	self.pickerViewArray = nil;
 	self.toolbar = nil;
+    
+    self.imageSwitch = nil;
+    self.imageSwitchLabel = nil;
 }
 
 - (void)viewDidLoad
@@ -192,8 +199,16 @@
 	currentSystemItem = UIBarButtonSystemItemDone;
 	[self createToolbarItems];
 	
-	// Set the accessibility label for the tint switch so that its context can be determined.
+	// Set the accessibility label for the tint and image switches so that its context can be determined
 	[self.tintSwitch setAccessibilityLabel:NSLocalizedString(@"TintSwitch", @"")];
+    [self.imageSwitch setAccessibilityLabel:NSLocalizedString(@"ImageSwitch", @"")];
+    
+    // provide tint coloring and background image only if its available
+    if (![self.toolbar respondsToSelector:@selector(backgroundImageForToolbarPosition:barMetrics:)])
+    {
+        self.imageSwitch.hidden = YES;
+        self.imageSwitchLabel.hidden = YES;
+    }
 }
 
 - (IBAction)toggleStyle:(id)sender
@@ -249,14 +264,35 @@
 	if (switchCtl.on)
 	{
 		toolbar.tintColor = [UIColor redColor];
-		barStyleSegControl.enabled = NO;
-		barStyleSegControl.alpha = 0.50;
+		imageSwitch.enabled = barStyleSegControl.enabled = NO;
+		imageSwitch.alpha = barStyleSegControl.alpha = 0.50;
 	}
 	else
 	{
 		toolbar.tintColor = nil; // no color
-		barStyleSegControl.enabled = YES;
-		barStyleSegControl.alpha = 1.0;
+		imageSwitch.enabled = barStyleSegControl.enabled = YES;
+		imageSwitch.alpha = barStyleSegControl.alpha = 1.0;
+	}
+}
+
+- (IBAction)toggleImage:(id)sender
+{
+	UISwitch *switchCtl = (UISwitch *)sender;
+	if (switchCtl.on)
+	{
+		[self.toolbar setBackgroundImage:[UIImage imageNamed:@"toolbarBackground"]
+                      forToolbarPosition:UIToolbarPositionBottom
+                              barMetrics:UIBarMetricsDefault];
+        tintSwitch.enabled = barStyleSegControl.enabled = NO;
+		tintSwitch.alpha = barStyleSegControl.alpha = 0.50;
+	}
+	else
+	{
+		[self.toolbar setBackgroundImage:nil
+                      forToolbarPosition:UIToolbarPositionBottom
+                              barMetrics:UIBarMetricsDefault];
+        tintSwitch.enabled = barStyleSegControl.enabled = YES;
+		tintSwitch.alpha = barStyleSegControl.alpha = 1.0;
 	}
 }
 

@@ -1,7 +1,7 @@
 /*
      File: AlertsViewController.h
  Abstract: The view controller for hosting various kinds of alerts and action sheets
-  Version: 2.9
+  Version: 2.10
  
  Disclaimer: IMPORTANT:  This Apple software is supplied to you by Apple
  Inc. ("Apple") in consideration of your agreement to the following
@@ -49,11 +49,8 @@
 
 @interface AlertsViewController : UITableViewController <UIAlertViewDelegate,		// for UIAlertView
 														 UIActionSheetDelegate >	// for UIActionSheet
-{
-	NSArray	*dataSourceArray;
-}
 
-@property (nonatomic, retain) NSArray *dataSourceArray;
+@property (nonatomic, retain) NSMutableArray *dataSourceArray;
 
 @end
 

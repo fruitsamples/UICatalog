@@ -1,7 +1,7 @@
 /*
      File: ButtonsViewController.h
  Abstract: The table view controller for hosting the UIButton features of this sample.
-  Version: 2.9
+  Version: 2.10
  
  Disclaimer: IMPORTANT:  This Apple software is supplied to you by Apple
  Inc. ("Apple") in consideration of your agreement to the following
@@ -48,20 +48,6 @@
 #import <UIKit/UIKit.h>
 
 @interface ButtonsViewController : UITableViewController
-{
-	UIButton *grayButton;
-	UIButton *imageButton;
-	UIButton *roundedButtonType;
-	
-	UIButton *detailDisclosureButtonType;
-	
-	UIButton *infoLightButtonType;
-	UIButton *infoDarkButtonType;
-	
-	UIButton *contactAddButtonType;
-	
-	NSArray *dataSourceArray;
-}
 
 @property (nonatomic, retain, readonly) UIButton *grayButton;
 @property (nonatomic, retain, readonly) UIButton *imageButton;

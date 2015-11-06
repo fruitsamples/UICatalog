@@ -1,7 +1,7 @@
 /*
      File: AlertsViewController.m 
  Abstract: The view controller for hosting various kinds of alerts and action sheets 
-  Version: 2.9 
+  Version: 2.10 
   
  Disclaimer: IMPORTANT:  This Apple software is supplied to you by Apple 
  Inc. ("Apple") in consideration of your agreement to the following 
@@ -59,6 +59,7 @@ enum AlertTableSections
 	kUIAlert_Simple_Section,
 	kUIAlert_OKCancel_Section,
 	kUIAlert_Custom_Section,
+    kUIAlert_SecureText_Section
 };
 
 @implementation AlertsViewController
@@ -78,7 +79,7 @@ enum AlertTableSections
 	
 	self.title = NSLocalizedString(@"AlertTitle", @"");
 
-	self.dataSourceArray = [NSArray arrayWithObjects:
+	self.dataSourceArray = [NSMutableArray arrayWithObjects:
 							[NSDictionary dictionaryWithObjectsAndKeys:
 								 @"UIActionSheet", kSectionTitleKey,
 								 @"Show Simple", kLabelKey,
@@ -114,7 +115,23 @@ enum AlertTableSections
 								 @"Show Custom", kLabelKey,
 								 @"AlertsViewController.m - alertOtherAction", kSourceKey,
 							 nil],
-							nil];
+                            nil];
+    
+    // create a temporary alert to test it's feature availability
+    UIAlertView *alert = [[[UIAlertView alloc] initWithTitle:nil
+                                                     message:nil
+                                                    delegate:self
+                                           cancelButtonTitle:nil
+                                           otherButtonTitles: nil] autorelease];
+    // only add this part to the table if secure alerts are available
+    if ([alert respondsToSelector:@selector(alertViewStyle)])
+    {
+        [dataSourceArray addObject:[NSDictionary dictionaryWithObjectsAndKeys:
+                                        @"UIAlertView", kSectionTitleKey,
+                                        @"Secure Text Input", kLabelKey,
+                                        @"AlertsViewController.m - alertSecureTextAction", kSourceKey,
+                                    nil]];
+    }
 }
 
 // called after the view controller's view is released and set to nil.
@@ -192,6 +209,16 @@ enum AlertTableSections
 	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"UIAlertView" message:@"<Alert message>"
 							delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Button1", @"Button2", nil];
 	[alert show];
+	[alert release];
+}
+
+- (void)alertSecureTextAction
+{
+	// open an alert with two custom buttons
+	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"UIAlertView" message:@"Enter a password:"
+                                                   delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"OK", nil];
+	alert.alertViewStyle = UIAlertViewStyleSecureTextInput;
+    [alert show];
 	[alert release];
 }
 
@@ -292,6 +319,12 @@ enum AlertTableSections
 			case kUIAlert_Custom_Section:
 			{
 				[self alertOtherAction];	
+				break;
+			}
+                
+            case kUIAlert_SecureText_Section:
+			{
+				[self alertSecureTextAction];	
 				break;
 			}
 		}

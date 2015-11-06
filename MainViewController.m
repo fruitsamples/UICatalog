@@ -1,7 +1,8 @@
 /*
      File: MainViewController.m 
- Abstract: The application's main view controller (front page). 
-  Version: 2.9 
+ Abstract: The application's main view controller (front page).
+  
+  Version: 2.10 
   
  Disclaimer: IMPORTANT:  This Apple software is supplied to you by Apple 
  Inc. ("Apple") in consideration of your agreement to the following 

@@ -1,7 +1,7 @@
 /*
      File: TransitionViewController.h
  Abstract: The view controller for showing transitions with UIView.
-  Version: 2.9
+  Version: 2.10
  
  Disclaimer: IMPORTANT:  This Apple software is supplied to you by Apple
  Inc. ("Apple") in consideration of your agreement to the following
@@ -48,11 +48,6 @@
 #import <UIKit/UIKit.h>
 
 @interface TransitionsViewController : UIViewController
-{
-	UIView *containerView;
-	UIImageView *mainView;
-	UIImageView *flipToView;
-}
 
 @property (nonatomic, retain) UIView *containerView;
 @property (nonatomic, retain) UIImageView *mainView;

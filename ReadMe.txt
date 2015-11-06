@@ -1,5 +1,5 @@
 UICatalog
-==========
+=========
 
 This sample is a catalog exhibiting many views and controls in the UIKit framework, along with their various properties and styles.
 If you need code to create specific UI controls or views, refer to this sample and it should give you a good head start in building your user interface.
@@ -8,15 +8,15 @@ When images or custom views are used, accessibility code has been added. Using t
 
 
 Build Requirements
-iOS 4.2 SDK
+iOS 5.0 SDK or later
 
 
 Runtime Requirements
-iOS OS 3.2 or later.
+iOS 3.2 or later
 
 
 Using the Sample
-Build and run the sample using iOS 4.2 SDK.
+Build and run the sample using iOS 5.0 SDK.
 To run in the simulator, set the Active SDK to Simulator. To run on a device, set the Active SDK to the appropriate Device setting.
 
 In most areas of this sample, as you see various UI elements, you will see a corresponding explanation as to where you can find the code. 
@@ -84,5 +84,6 @@ Changes from Previous Versions
 2.7 - Removed deprecation use of UIKeyboard info keys, upgraded project to build with the iOS 4 SDK.
 2.8 - Deployment target set to iPhone OS 3.2.
 2.9 - Upgraded to support 4.2 SDK, Picker page now supports landscape orientation.
+2.10 - Upgraded to support 5.0 SDK, UIStepper control added, tinting/background image support added where possible, and secure text entry for UIAlertView.
 
 Copyright (C) 2008-2011 Apple Inc. All rights reserved.

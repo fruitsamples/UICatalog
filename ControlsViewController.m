@@ -1,7 +1,7 @@
 /*
      File: ControlsViewController.m 
  Abstract: The view controller for hosting the UIControls features of this sample. 
-  Version: 2.9 
+  Version: 2.10 
   
  Disclaimer: IMPORTANT:  This Apple software is supplied to you by Apple 
  Inc. ("Apple") in consideration of your agreement to the following 
@@ -50,6 +50,7 @@
 
 #define kSliderHeight			7.0
 #define kProgressIndicatorSize	40.0
+
 #define kUIProgressBarWidth		160.0
 #define kUIProgressBarHeight	24.0
 
@@ -62,9 +63,13 @@ static NSString *kViewKey = @"viewKey";
 
 #pragma mark -
 
+@interface ControlsViewController (forwardDeclarations)
+- (void)tintAction:(id)sender;
+@end
+
 @implementation ControlsViewController
 
-@synthesize dataSourceArray;
+@synthesize dataSourceArray, switchCtl, sliderCtl, customSlider, pageControl, progressInd, progressBar, stepper, progressIndSavedColor;
 
 - (void)dealloc
 {	
@@ -73,19 +78,21 @@ static NSString *kViewKey = @"viewKey";
 	[customSlider release];
 	[pageControl release];
 	[progressInd release];
+    [progressIndSavedColor release];
 	[progressBar release];
-	
+	[stepper release];
 	[dataSourceArray release];
-	
+
 	[super dealloc];
 }
 
 - (void)viewDidLoad
 {	
     [super viewDidLoad];
+    
 	self.title = NSLocalizedString(@"ControlsTitle", @"");
 
-	self.dataSourceArray = [NSArray arrayWithObjects:
+	self.dataSourceArray = [NSMutableArray arrayWithObjects:
 							[NSDictionary dictionaryWithObjectsAndKeys:
 								 @"UISwitch", kSectionTitleKey,
 								 @"Standard Switch", kLabelKey,
@@ -127,7 +134,31 @@ static NSString *kViewKey = @"viewKey";
 								 @"ControlsViewController.m:\r-(UIProgressView *)progressBar", kSourceKey,
 								 self.progressBar, kViewKey,
 							 nil],
+                            
 							nil];
+    
+    // add a UIStepper class section (if available)
+    if ([UIStepper class])
+    {
+        [self.dataSourceArray addObject:[NSDictionary dictionaryWithObjectsAndKeys:
+                                 @"UIStepper", kSectionTitleKey,
+                                 @"Stepper 1 to 10", kLabelKey,
+                                 @"ControlsViewController.m:\r-(UIStepper *)stepper", kSourceKey,
+                                 self.stepper, kViewKey,
+                              nil]];
+    }
+    
+    // provide tint coloring only if its available
+    if ([sliderCtl respondsToSelector:@selector(minimumTrackTintColor)])
+    {
+        // add tint bar button
+        UIBarButtonItem *tintButton = [[UIBarButtonItem alloc] initWithTitle:@"Tinted"
+                                                                       style:UIBarButtonItemStyleBordered
+                                                                      target:self
+                                                                      action:@selector(tintAction:)];
+        self.navigationItem.rightBarButtonItem = tintButton;
+        [tintButton release];
+    }
 }
 
 // called after the view controller's view is released and set to nil.
@@ -153,7 +184,9 @@ static NSString *kViewKey = @"viewKey";
     progressInd = nil;
     [progressBar release];
     progressBar = nil;
-	
+	[stepper release];
+    stepper = nil;
+    
 	self.dataSourceArray = nil;	// this will release and set to nil
 }
 
@@ -246,6 +279,18 @@ static NSString *kViewKey = @"viewKey";
 	// NSLog(@"pageAction: current page = %d", [sender currentPage]);
 }
 
+- (void)sliderAction:(id)sender
+{
+    // UISlider *slider = (UISlider *)sender;
+    // NSLog(@"sliderAction: value = %f", [slider value]);
+}
+
+- (void)stepperAction:(id)sender
+{
+    // UIStepper *actualStepper = (UIStepper *)sender;
+    // NSLog(@"stepperAction: value = %f", [actualStepper value]);
+}
+
 
 #pragma mark -
 #pragma mark Lazy creation of controls
@@ -267,9 +312,6 @@ static NSString *kViewKey = @"viewKey";
     }
     return switchCtl;
 }
-
-- (void)sliderAction:(id)sender
-{ }
 
 - (UISlider *)sliderCtl
 {
@@ -347,14 +389,13 @@ static NSString *kViewKey = @"viewKey";
     if (progressInd == nil)
     {
         CGRect frame = CGRectMake(265.0, 12.0, kProgressIndicatorSize, kProgressIndicatorSize);
-        progressInd = [[UIActivityIndicatorView alloc] initWithFrame:frame];
+        
+        progressInd = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+        self.progressIndSavedColor = progressInd.color;
+        progressInd.frame = frame;
         [progressInd startAnimating];
         progressInd.activityIndicatorViewStyle = UIActivityIndicatorViewStyleGray;
         [progressInd sizeToFit];
-        progressInd.autoresizingMask = (UIViewAutoresizingFlexibleLeftMargin |
-                                        UIViewAutoresizingFlexibleRightMargin |
-                                        UIViewAutoresizingFlexibleTopMargin |
-                                        UIViewAutoresizingFlexibleBottomMargin);
 		
 		progressInd.tag = kViewTag;	// tag this view for later so we can remove it from recycled table cells
     }
@@ -373,6 +414,39 @@ static NSString *kViewKey = @"viewKey";
 		progressBar.tag = kViewTag;	// tag this view for later so we can remove it from recycled table cells
     }
     return progressBar;
+}
+
+- (UIStepper *)stepper
+{
+    if (stepper == nil && [UIStepper class])
+    {
+        CGRect frame = CGRectMake(200.0, 10.0, 0.0, 0.0);
+        stepper = [[UIStepper alloc] initWithFrame:frame];
+		[stepper sizeToFit];        // size the control to it's normal size
+        
+		stepper.tag = kViewTag;     // tag this view for later so we can remove it from recycled table cells
+        stepper.value = 0;
+        stepper.minimumValue = 0;
+        stepper.maximumValue = 10;
+        stepper.stepValue = 1;
+        
+        [stepper addTarget:self action:@selector(stepperAction:) forControlEvents:UIControlEventValueChanged];
+    }
+    return stepper;
+}
+
+- (void)tintAction:(id)sender
+{
+    UIColor *tintColor = (progressBar.progressTintColor != nil) ? nil : [UIColor blueColor];
+                        
+    progressBar.progressTintColor = tintColor;
+    progressBar.trackTintColor = tintColor;
+    sliderCtl.minimumTrackTintColor = tintColor;
+    sliderCtl.thumbTintColor = tintColor;
+    switchCtl.onTintColor = tintColor;
+    
+    UIColor *progressIndColor = (progressInd.color != progressIndSavedColor) ? self.progressIndSavedColor : [UIColor blueColor];
+    progressInd.color = progressIndColor;
 }
 
 @end

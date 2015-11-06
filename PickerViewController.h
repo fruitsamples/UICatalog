@@ -1,7 +1,7 @@
 /*
      File: PickerViewController.h
  Abstract: The view controller for hosting the UIPickerView of this sample.
-  Version: 2.9
+  Version: 2.10
  
  Disclaimer: IMPORTANT:  This Apple software is supplied to you by Apple
  Inc. ("Apple") in consideration of your agreement to the following
@@ -49,22 +49,6 @@
 #import "CustomPickerDataSource.h"
 
 @interface PickerViewController : UIViewController <UIPickerViewDelegate, UIPickerViewDataSource>
-{
-	UIPickerView		*myPickerView;
-	UIDatePicker		*datePickerView;
-	NSArray				*pickerViewArray;
-	
-	UILabel				*label;
-	
-	UIPickerView		*customPickerView;
-	CustomPickerDataSource *customPickerDataSource;
-	
-	UIView				*currentPicker;
-	
-	UISegmentedControl	*buttonBarSegmentedControl;
-	UISegmentedControl	*pickerStyleSegmentedControl;
-	UILabel				*segmentLabel;
-}
 
 @property (nonatomic, retain) UIPickerView *myPickerView;
 @property (nonatomic, retain) UIDatePicker *datePickerView;
@@ -80,7 +64,6 @@
 @property (nonatomic, retain) IBOutlet UISegmentedControl *buttonBarSegmentedControl;
 @property (nonatomic, retain) IBOutlet UISegmentedControl *pickerStyleSegmentedControl;
 @property (nonatomic, retain) IBOutlet UILabel *segmentLabel;
-
 
 - (IBAction)togglePickers:(id)sender;		// for changing between UIPickerView, UIDatePickerView and custom picker
 - (IBAction)togglePickerStyle:(id)sender;	// for changing the date picker's style

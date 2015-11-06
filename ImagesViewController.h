@@ -1,7 +1,7 @@
 /*
      File: ImagesViewController.h
  Abstract: The view controller for hosting the UIImageView containing multiple images.
-  Version: 2.9
+  Version: 2.10
  
  Disclaimer: IMPORTANT:  This Apple software is supplied to you by Apple
  Inc. ("Apple") in consideration of your agreement to the following
@@ -48,10 +48,6 @@
 #import <UIKit/UIKit.h>
 
 @interface ImagesViewController : UIViewController
-{
-	UIImageView *imageView;
-	UISlider *slider;
-}
 
 @property (nonatomic, retain) IBOutlet UIImageView *imageView;
 @property (nonatomic, retain) IBOutlet UISlider *slider;
