@@ -8,15 +8,15 @@ When images or custom views are used, accessibility code has been added. Using t
 
 
 Build Requirements
-iOS 4.0 SDK
+iOS 4.2 SDK
 
 
 Runtime Requirements
-iPhone OS 3.2 or later.
+iOS OS 3.2 or later.
 
 
 Using the Sample
-Build and run the sample using iOS 4.0 SDK.
+Build and run the sample using iOS 4.2 SDK.
 To run in the simulator, set the Active SDK to Simulator. To run on a device, set the Active SDK to the appropriate Device setting.
 
 In most areas of this sample, as you see various UI elements, you will see a corresponding explanation as to where you can find the code. 
@@ -83,5 +83,6 @@ Changes from Previous Versions
 2.6 - Used the iPhone Accessibility API to improve the accessibility of UICatalog and demonstrate how accessibility should be employed.
 2.7 - Removed deprecation use of UIKeyboard info keys, upgraded project to build with the iOS 4 SDK.
 2.8 - Deployment target set to iPhone OS 3.2.
+2.9 - Upgraded to support 4.2 SDK, Picker page now supports landscape orientation.
 
-Copyright (C) 2008-2010 Apple Inc. All rights reserved.
+Copyright (C) 2008-2011 Apple Inc. All rights reserved.
