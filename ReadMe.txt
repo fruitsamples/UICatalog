@@ -8,17 +8,20 @@ When images or custom views are used, accessibility code has been added. Using t
 
 
 Build Requirements
-Mac OS X 10.5.6 or later, iPhone OS 3.0 SDK
+iOS 4.0 SDK
 
 
 Runtime Requirements
-Mac OS X 10.5.6 or later, iPhone OS 3.0 SDK
+iPhone OS 3.2 or later.
 
 
 Using the Sample
-Build and run the sample using Xcode 3.1.3. To run in the simulator, set the Active SDK to Simulator. To run on a device, set the Active SDK to the appropriate Device setting.
+Build and run the sample using iOS 4.0 SDK.
+To run in the simulator, set the Active SDK to Simulator. To run on a device, set the Active SDK to the appropriate Device setting.
 
-In most areas of this sample, as you see various UI elements, you will see a corresponding explanation as to where you can find the code.  So for example the Buttons page - the gray button will have "ButtonsViewController.m - createGrayButton".  This means refer to the ButtonsViewController.m source file and search for the createGrayButton Objective-C method.
+In most areas of this sample, as you see various UI elements, you will see a corresponding explanation as to where you can find the code. 
+So for example the Buttons page - the gray button will have "ButtonsViewController.m - createGrayButton".
+This means refer to the ButtonsViewController.m source file and search for the createGrayButton Objective-C method.
 
 Buttons - This UIViewController or page contains various kinds of UIButton controls complete with background images.
 
@@ -78,5 +81,7 @@ Changes from Previous Versions
 2.0 - Upgraded for 3.0 SDK due to deprecated APIs, more use of UITableViewController.
 2.5 - Minor bug fixes, all view controllers created from separate nibs, more use of properties, further code optimizations, added viewDidUnload methods.
 2.6 - Used the iPhone Accessibility API to improve the accessibility of UICatalog and demonstrate how accessibility should be employed.
+2.7 - Removed deprecation use of UIKeyboard info keys, upgraded project to build with the iOS 4 SDK.
+2.8 - Deployment target set to iPhone OS 3.2.
 
-Copyright (C) 2008-2009 Apple Inc. All rights reserved.
+Copyright (C) 2008-2010 Apple Inc. All rights reserved.

@@ -1,7 +1,7 @@
 /*
      File: ButtonsViewController.m
  Abstract: The table view controller for hosting the UIButton features of this sample.
-  Version: 2.6
+  Version: 2.8
  
  Disclaimer: IMPORTANT:  This Apple software is supplied to you by Apple
  Inc. ("Apple") in consideration of your agreement to the following
@@ -41,7 +41,7 @@
  STRICT LIABILITY OR OTHERWISE, EVEN IF APPLE HAS BEEN ADVISED OF THE
  POSSIBILITY OF SUCH DAMAGE.
  
- Copyright (C) 2009 Apple Inc. All Rights Reserved.
+ Copyright (C) 2010 Apple Inc. All Rights Reserved.
  
  */
 
@@ -249,7 +249,7 @@ static NSString *kViewKey = @"viewKey";
 
 #pragma mark -
 
-+ (UIButton *)buttonWithTitle:	(NSString *)title
++ (UIButton *)newButtonWithTitle:(NSString *)title
 					   target:(id)target
 					 selector:(SEL)selector
 						frame:(CGRect)frame
@@ -260,7 +260,6 @@ static NSString *kViewKey = @"viewKey";
 	UIButton *button = [[UIButton alloc] initWithFrame:frame];
 	// or you can do this:
 	//		UIButton *button = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
-	//		button.frame = frame;
 	
 	button.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
 	button.contentHorizontalAlignment = UIControlContentHorizontalAlignmentCenter;
@@ -308,7 +307,7 @@ static NSString *kViewKey = @"viewKey";
 		
 		CGRect frame = CGRectMake(182.0, 5.0, kStdButtonWidth, kStdButtonHeight);
 		
-		grayButton = [ButtonsViewController buttonWithTitle:@"Gray"
+		grayButton = [ButtonsViewController newButtonWithTitle:@"Gray"
 													 target:self
 												   selector:@selector(action:)
 													  frame:frame
@@ -332,7 +331,7 @@ static NSString *kViewKey = @"viewKey";
 		
 		CGRect frame = CGRectMake(182.0, 5.0, kStdButtonWidth, kStdButtonHeight);
 		
-		imageButton = [ButtonsViewController buttonWithTitle:@""
+		imageButton = [ButtonsViewController newButtonWithTitle:@""
 													  target:self
 													selector:@selector(action:)
 													   frame:frame

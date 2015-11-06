@@ -16,6 +16,12 @@
 		5316140F0DDCC3480085B0B5 /* TransitionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5316140D0DDCC3480085B0B5 /* TransitionViewController.m */; };
 		531992A70DCBAE7300530CD7 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 531992A30DCBAE7300530CD7 /* MainWindow.xib */; };
 		531992A80DCBAE7300530CD7 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 531992A50DCBAE7300530CD7 /* Localizable.strings */; };
+		532ABB2E11D5647300D29D20 /* Icon-72.png in Resources */ = {isa = PBXBuildFile; fileRef = 532ABB2811D5647300D29D20 /* Icon-72.png */; };
+		532ABB2F11D5647300D29D20 /* Icon-Small-50.png in Resources */ = {isa = PBXBuildFile; fileRef = 532ABB2911D5647300D29D20 /* Icon-Small-50.png */; };
+		532ABB3011D5647300D29D20 /* Icon-Small.png in Resources */ = {isa = PBXBuildFile; fileRef = 532ABB2A11D5647300D29D20 /* Icon-Small.png */; };
+		532ABB3111D5647300D29D20 /* Icon-Small@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 532ABB2B11D5647300D29D20 /* Icon-Small@2x.png */; };
+		532ABB3211D5647300D29D20 /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 532ABB2C11D5647300D29D20 /* Icon@2x.png */; };
+		532ABB3311D5647300D29D20 /* iTunesArtwork in Resources */ = {isa = PBXBuildFile; fileRef = 532ABB2D11D5647300D29D20 /* iTunesArtwork */; };
 		5348C5BE0DB55CE800E8144A /* SearchBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5348C5BC0DB55CE800E8144A /* SearchBarController.m */; };
 		534E452F0D65F9A800BDA07D /* AlertsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 534E452D0D65F9A800BDA07D /* AlertsViewController.m */; };
 		535F14180D6CA6A600F72359 /* TextFieldController.m in Sources */ = {isa = PBXBuildFile; fileRef = 535F14160D6CA6A600F72359 /* TextFieldController.m */; };
@@ -76,6 +82,12 @@
 		5316140E0DDCC3480085B0B5 /* TransitionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TransitionViewController.h; sourceTree = "<group>"; };
 		531992A40DCBAE7300530CD7 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainWindow.xib; sourceTree = "<group>"; };
 		531992A60DCBAE7300530CD7 /* en */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		532ABB2811D5647300D29D20 /* Icon-72.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-72.png"; sourceTree = "<group>"; };
+		532ABB2911D5647300D29D20 /* Icon-Small-50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Small-50.png"; sourceTree = "<group>"; };
+		532ABB2A11D5647300D29D20 /* Icon-Small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Small.png"; sourceTree = "<group>"; };
+		532ABB2B11D5647300D29D20 /* Icon-Small@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Small@2x.png"; sourceTree = "<group>"; };
+		532ABB2C11D5647300D29D20 /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon@2x.png"; sourceTree = "<group>"; };
+		532ABB2D11D5647300D29D20 /* iTunesArtwork */ = {isa = PBXFileReference; lastKnownFileType = file; path = iTunesArtwork; sourceTree = "<group>"; };
 		533959C80DB800E8004A17CB /* ReadMe.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ReadMe.txt; sourceTree = "<group>"; };
 		5348C5BC0DB55CE800E8144A /* SearchBarController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchBarController.m; sourceTree = "<group>"; };
 		5348C5BD0DB55CE800E8144A /* SearchBarController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchBarController.h; sourceTree = "<group>"; };
@@ -279,6 +291,12 @@
 				53DD76C20E12CB670026169A /* 12-6PM.png */,
 				537E74AB0D78CBFE00FD5536 /* UIButton_custom.png */,
 				53C370D10D787C5400E6AABE /* Icon.png */,
+				532ABB2811D5647300D29D20 /* Icon-72.png */,
+				532ABB2911D5647300D29D20 /* Icon-Small-50.png */,
+				532ABB2A11D5647300D29D20 /* Icon-Small.png */,
+				532ABB2B11D5647300D29D20 /* Icon-Small@2x.png */,
+				532ABB2C11D5647300D29D20 /* Icon@2x.png */,
+				532ABB2D11D5647300D29D20 /* iTunesArtwork */,
 				53C36FCC0D786A6A00E6AABE /* slider_ball.png */,
 				53C36FCD0D786A6A00E6AABE /* yellowslide.png */,
 				53C36FCE0D786A6A00E6AABE /* orangeslide.png */,
@@ -380,6 +398,12 @@
 				53FEDF700E8065BF001CAA6B /* ToolbarViewController.xib in Resources */,
 				53FEDF7C0E80670E001CAA6B /* AlertsViewController.xib in Resources */,
 				53FEDF930E8067FD001CAA6B /* TransitionViewController.xib in Resources */,
+				532ABB2E11D5647300D29D20 /* Icon-72.png in Resources */,
+				532ABB2F11D5647300D29D20 /* Icon-Small-50.png in Resources */,
+				532ABB3011D5647300D29D20 /* Icon-Small.png in Resources */,
+				532ABB3111D5647300D29D20 /* Icon-Small@2x.png in Resources */,
+				532ABB3211D5647300D29D20 /* Icon@2x.png in Resources */,
+				532ABB3311D5647300D29D20 /* iTunesArtwork in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -546,7 +570,7 @@
 				INFOPLIST_FILE = Info.plist;
 				PREBINDING = NO;
 				PRODUCT_NAME = UICatalog;
-				SDKROOT = iphoneos3.0;
+				SDKROOT = iphoneos4.0;
 			};
 			name = Debug;
 		};
@@ -565,7 +589,7 @@
 				INFOPLIST_FILE = Info.plist;
 				PREBINDING = NO;
 				PRODUCT_NAME = UICatalog;
-				SDKROOT = iphoneos3.0;
+				SDKROOT = iphoneos4.0;
 			};
 			name = Release;
 		};
@@ -573,9 +597,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				IPHONEOS_DEPLOYMENT_TARGET = 3.2;
 				ONLY_ACTIVE_ARCH = YES;
 				PREBINDING = NO;
-				SDKROOT = iphoneos2.0;
+				SDKROOT = iphoneos4.0;
 			};
 			name = Debug;
 		};
@@ -583,8 +608,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				IPHONEOS_DEPLOYMENT_TARGET = 3.2;
 				PREBINDING = NO;
-				SDKROOT = iphoneos2.0;
+				SDKROOT = iphoneos4.0;
 			};
 			name = Release;
 		};

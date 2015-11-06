@@ -1,7 +1,7 @@
 /*
      File: MainViewController.m
  Abstract: The application's main view controller (front page).
-  Version: 2.6
+  Version: 2.8
  
  Disclaimer: IMPORTANT:  This Apple software is supplied to you by Apple
  Inc. ("Apple") in consideration of your agreement to the following
@@ -41,7 +41,7 @@
  STRICT LIABILITY OR OTHERWISE, EVEN IF APPLE HAS BEEN ADVISED OF THE
  POSSIBILITY OF SUCH DAMAGE.
  
- Copyright (C) 2009 Apple Inc. All Rights Reserved.
+ Copyright (C) 2010 Apple Inc. All Rights Reserved.
  
  */
 
@@ -64,6 +64,7 @@
 
 static NSString *kCellIdentifier = @"MyIdentifier";
 static NSString *kTitleKey = @"title";
+static NSString *kExplainKey = @"explanation";
 static NSString *kViewControllerKey = @"viewController";
 
 @implementation MainViewController
@@ -83,7 +84,8 @@ static NSString *kViewControllerKey = @"viewController";
 														initWithNibName:@"ButtonsViewController" bundle:nil];
 	[self.menuList addObject:[NSDictionary dictionaryWithObjectsAndKeys:
 								NSLocalizedString(@"ButtonsTitle", @""), kTitleKey,
-								buttonsViewController, kViewControllerKey,
+								NSLocalizedString(@"ButtonsExplain", @""), kExplainKey,
+                              buttonsViewController, kViewControllerKey,
 							  nil]];
 	[buttonsViewController release];
 	
@@ -92,6 +94,7 @@ static NSString *kViewControllerKey = @"viewController";
 														initWithNibName:@"ControlsViewController" bundle:nil];
 	[self.menuList addObject:[NSDictionary dictionaryWithObjectsAndKeys:
 								NSLocalizedString(@"ControlsTitle", @""), kTitleKey,
+                                NSLocalizedString(@"ControlsExplain", @""), kExplainKey,
 								controlsViewController, kViewControllerKey,
 							  nil]];
 	[controlsViewController release];
@@ -101,6 +104,7 @@ static NSString *kViewControllerKey = @"viewController";
 														initWithNibName:@"TextFieldController" bundle:nil];
 	[self.menuList addObject:[NSDictionary dictionaryWithObjectsAndKeys:
 								NSLocalizedString(@"TextFieldTitle", @""), kTitleKey,
+                                NSLocalizedString(@"TextFieldExplain", @""), kExplainKey,
 								textFieldViewController, kViewControllerKey,
 							  nil]];
 	[textFieldViewController release];
@@ -110,6 +114,7 @@ static NSString *kViewControllerKey = @"viewController";
 													initWithNibName:@"SearchBarController" bundle:nil];
 	[self.menuList addObject:[NSDictionary dictionaryWithObjectsAndKeys:
 								NSLocalizedString(@"SearchBarTitle", @""), kTitleKey,
+                                NSLocalizedString(@"SearchBarExplain", @""), kExplainKey,
 								searchBarController, kViewControllerKey,
 							  nil]];
 	[searchBarController release];
@@ -119,6 +124,7 @@ static NSString *kViewControllerKey = @"viewController";
 												initWithNibName:@"TextViewController" bundle:nil];
 	[self.menuList addObject:[NSDictionary dictionaryWithObjectsAndKeys:
 								NSLocalizedString(@"TextViewTitle", @""), kTitleKey,
+                                NSLocalizedString(@"TextViewExplain", @""), kExplainKey,
 								textViewController, kViewControllerKey,
 							  nil]];
 	[textViewController release];
@@ -128,6 +134,7 @@ static NSString *kViewControllerKey = @"viewController";
 													initWithNibName:@"PickerViewController" bundle:nil];
 	[self.menuList addObject:[NSDictionary dictionaryWithObjectsAndKeys:
 								NSLocalizedString(@"PickerTitle", @""), kTitleKey,
+                                NSLocalizedString(@"PickerExplain", @""), kExplainKey,
 								pickerViewController, kViewControllerKey,
 							  nil]];
 	[pickerViewController release];
@@ -137,6 +144,7 @@ static NSString *kViewControllerKey = @"viewController";
 													initWithNibName:@"ImagesViewController" bundle:nil];
 	[self.menuList addObject:[NSDictionary dictionaryWithObjectsAndKeys:
 								NSLocalizedString(@"ImagesTitle", @""), kTitleKey,
+                                NSLocalizedString(@"ImagesExplain", @""), kExplainKey,
 								imagesViewController, kViewControllerKey,
 							  nil]];
 	[imagesViewController release];	
@@ -146,6 +154,7 @@ static NSString *kViewControllerKey = @"viewController";
 												initWithNibName:@"WebViewController" bundle:nil];
 	[self.menuList addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:
 								NSLocalizedString(@"WebTitle", @""), kTitleKey,
+                                NSLocalizedString(@"WebExplain", @""), kExplainKey,
 								webViewController, kViewControllerKey,
 							  nil]];
 	[webViewController release];	
@@ -155,6 +164,7 @@ static NSString *kViewControllerKey = @"viewController";
 														initWithNibName:@"SegmentViewController" bundle:nil];
 	[self.menuList addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:
 								NSLocalizedString(@"SegmentTitle", @""), kTitleKey,
+                                NSLocalizedString(@"SegmentExplain", @""), kExplainKey,
 								segmentViewController, kViewControllerKey,
 							  nil]];
 	[segmentViewController release];
@@ -164,6 +174,7 @@ static NSString *kViewControllerKey = @"viewController";
 														initWithNibName:@"ToolbarViewController" bundle:nil];
 	[self.menuList addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:
 								NSLocalizedString(@"ToolbarTitle", @""), kTitleKey,
+                                NSLocalizedString(@"ToolbarExplain", @""), kExplainKey,
 								toolbarViewController, kViewControllerKey,
 							  nil]];
 	[toolbarViewController release];
@@ -173,6 +184,7 @@ static NSString *kViewControllerKey = @"viewController";
 														initWithNibName:@"AlertsViewController" bundle:nil];
 	[self.menuList addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:
 								NSLocalizedString(@"AlertTitle", @""), kTitleKey,
+                                NSLocalizedString(@"AlertExplain", @""), kExplainKey,
 								alertsViewController, kViewControllerKey,
 							  nil]];
 	[alertsViewController release];
@@ -182,6 +194,7 @@ static NSString *kViewControllerKey = @"viewController";
 																initWithNibName:@"TransitionViewController" bundle:nil];
 	[self.menuList addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:
 								NSLocalizedString(@"TransitionsTitle", @""), kTitleKey,
+                                NSLocalizedString(@"TransitionsExplain", @""), kExplainKey,
 								transitionsViewController, kViewControllerKey,
 							  nil]];
 	[transitionsViewController release];
@@ -248,12 +261,12 @@ static NSString *kViewControllerKey = @"viewController";
 	UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier];
 	if (cell == nil)
 	{
-		cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:kCellIdentifier] autorelease];
+		cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:kCellIdentifier] autorelease];
 		cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 	}
 	
 	cell.textLabel.text = [[self.menuList objectAtIndex:indexPath.row] objectForKey:kTitleKey];
-
+    cell.detailTextLabel.text = [[self.menuList objectAtIndex:indexPath.row] objectForKey:kExplainKey];
 	return cell;
 }
 
