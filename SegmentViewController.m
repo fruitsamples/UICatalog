@@ -1,7 +1,7 @@
 /*
      File: SegmentViewController.m
  Abstract: The view controller for hosting the UISegmentedControl features of this sample.
-  Version: 2.5
+  Version: 2.6
  
  Disclaimer: IMPORTANT:  This Apple software is supplied to you by Apple
  Inc. ("Apple") in consideration of your agreement to the following
@@ -94,7 +94,12 @@
 	segmentedControl.selectedSegmentIndex = 1;	
 	[self.view addSubview:segmentedControl];
 	[segmentedControl release];
-		
+	
+	// Add the appropriate accessibility label to each image.
+	[[segmentedControl imageForSegmentAtIndex:0] setAccessibilityLabel:NSLocalizedString(@"CheckMarkIcon", @"")];
+	[[segmentedControl imageForSegmentAtIndex:1] setAccessibilityLabel:NSLocalizedString(@"SearchIcon", @"")];
+	[[segmentedControl imageForSegmentAtIndex:2] setAccessibilityLabel:NSLocalizedString(@"ToolsIcon", @"")];
+
 	// label
 	yPlacement += (kTweenMargin * 2.0) + kSegmentedControlHeight;
 	frame = CGRectMake(	kLeftMargin,

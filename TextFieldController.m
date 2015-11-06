@@ -1,7 +1,7 @@
 /*
      File: TextFieldController.m
  Abstract: The view controller for hosting the UITextField features of this sample.
-  Version: 2.5
+  Version: 2.6
  
  Disclaimer: IMPORTANT:  This Apple software is supplied to you by Apple
  Inc. ("Apple") in consideration of your agreement to the following
@@ -244,6 +244,9 @@ const NSInteger kViewTag = 1;
 		textFieldNormal.tag = kViewTag;		// tag this control so we can remove it later for recycled cells
 		
 		textFieldNormal.delegate = self;	// let us be the delegate so we know when the keyboard's "Done" button is pressed
+		
+		// Add an accessibility label that describes what the text field is for.
+		[textFieldNormal setAccessibilityLabel:NSLocalizedString(@"NormalTextField", @"")];
 	}	
 	return textFieldNormal;
 }
@@ -270,6 +273,9 @@ const NSInteger kViewTag = 1;
 		textFieldRounded.tag = kViewTag;		// tag this control so we can remove it later for recycled cells
 		
 		textFieldRounded.delegate = self;	// let us be the delegate so we know when the keyboard's "Done" button is pressed
+		
+		// Add an accessibility label that describes what the text field is for.
+		[textFieldRounded setAccessibilityLabel:NSLocalizedString(@"RoundedTextField", @"")];
 	}
 	return textFieldRounded;
 }
@@ -295,6 +301,9 @@ const NSInteger kViewTag = 1;
 		textFieldSecure.tag = kViewTag;		// tag this control so we can remove it later for recycled cells
 		
 		textFieldSecure.delegate = self;	// let us be the delegate so we know when the keyboard's "Done" button is pressed
+		
+		// Add an accessibility label that describes what the text field is for.
+		[textFieldSecure setAccessibilityLabel:NSLocalizedString(@"SecureTextField", @"")];
 	}
 	return textFieldSecure;
 }
@@ -317,6 +326,9 @@ const NSInteger kViewTag = 1;
 		textFieldLeftView.clearButtonMode = UITextFieldViewModeWhileEditing;	// has a clear 'x' button to the right
 		
 		textFieldLeftView.tag = kViewTag;		// tag this control so we can remove it later for recycled cells
+		
+		// Add an accessibility label that describes the text field.
+		[textFieldLeftView setAccessibilityLabel:NSLocalizedString(@"CheckMarkIcon", @"")];
 		
 		textFieldLeftView.leftView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"segment_check.png"]];
 		textFieldLeftView.leftViewMode = UITextFieldViewModeAlways;

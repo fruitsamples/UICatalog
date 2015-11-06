@@ -1,7 +1,7 @@
 /*
      File: TransitionViewController.m
  Abstract: The view controller for showing transitions with UIView.
-  Version: 2.5
+  Version: 2.6
  
  Disclaimer: IMPORTANT:  This Apple software is supplied to you by Apple
  Inc. ("Apple") in consideration of your agreement to the following
@@ -78,6 +78,10 @@
 														kTopPlacement, kImageWidth, kImageHeight);
 	self.containerView = [[[UIView alloc] initWithFrame:frame] autorelease];
 	[self.view addSubview:self.containerView];
+	
+	// The container view can represent the images for accessibility.
+	[self.containerView setIsAccessibilityElement:YES];
+	[self.containerView setAccessibilityLabel:NSLocalizedString(@"ImagesTitle", @"")];
 	
 	// create the initial image view
 	frame = CGRectMake(0.0, 0.0, kImageWidth, kImageHeight);

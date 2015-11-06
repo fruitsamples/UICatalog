@@ -3,7 +3,8 @@ UICatalog
 
 This sample is a catalog exhibiting many views and controls in the UIKit framework, along with their various properties and styles.
 If you need code to create specific UI controls or views, refer to this sample and it should give you a good head start in building your user interface.
-In most cases you can simply copy and paste the code snippets you need.
+In most cases you can simply copy and paste the code snippets you need. 
+When images or custom views are used, accessibility code has been added. Using the iPhone Accessibility API enhances the user experience of VoiceOver users.
 
 
 Build Requirements
@@ -76,5 +77,6 @@ Changes from Previous Versions
 1.7 - Improved custom UIPicker, Updated for and tested with iPhone OS 2.0. First public release.
 2.0 - Upgraded for 3.0 SDK due to deprecated APIs, more use of UITableViewController.
 2.5 - Minor bug fixes, all view controllers created from separate nibs, more use of properties, further code optimizations, added viewDidUnload methods.
+2.6 - Used the iPhone Accessibility API to improve the accessibility of UICatalog and demonstrate how accessibility should be employed.
 
 Copyright (C) 2008-2009 Apple Inc. All rights reserved.

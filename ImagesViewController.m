@@ -1,7 +1,7 @@
 /*
      File: ImagesViewController.m
  Abstract: The view controller for hosting the UIImageView containing multiple images.
-  Version: 2.5
+  Version: 2.6
  
  Disclaimer: IMPORTANT:  This Apple software is supplied to you by Apple
  Inc. ("Apple") in consideration of your agreement to the following
@@ -79,6 +79,11 @@
 									  nil];
 	imageView.animationDuration = 5.0;
 	[self.imageView stopAnimating];
+	
+	// Set the appropriate accessibility labels.
+	[self.imageView setIsAccessibilityElement:YES];
+	[self.imageView setAccessibilityLabel:self.title];
+	[self.slider setAccessibilityLabel:NSLocalizedString(@"DurationSlider",@"")];
 }
 
 // called after the view controller's view is released and set to nil.

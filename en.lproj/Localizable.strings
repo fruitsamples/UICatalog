@@ -22,3 +22,20 @@
 "CurlTitle" = "Curl Image";
 
 "LeftView" = "Left View:";
+
+"ArrowButton" = "Right pointing arrow";
+"MoreInfoButton" = "More info";
+"AddContactButton" = "Add contact";
+"StandardSwitch" = "Standard";
+"CustomSlider" = "Custom";
+"StandardSlider" = "Standard";
+"RoundedTextField" = "Rounded";
+"SecureTextField" = "Secure";
+"NormalTextField" = "Normal";
+"DurationSlider" = "Duration";
+"URLTextField" = "URL entry";
+"CheckMarkIcon" = "Check";
+"SearchIcon" = "Search";
+"ToolsIcon" = "Tools";
+"TintSwitch" = "Tinted";
+

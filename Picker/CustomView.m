@@ -1,7 +1,7 @@
 /*
      File: CustomView.m
  Abstract: The custom view holding the image and title for the custom picker.
-  Version: 2.5
+  Version: 2.6
  
  Disclaimer: IMPORTANT:  This Apple software is supplied to you by Apple
  Inc. ("Apple") in consideration of your agreement to the following
@@ -94,6 +94,18 @@ const CGFloat kViewHeight = 44;
 					actualFontSize:NULL
 					lineBreakMode:UILineBreakModeTailTruncation
 					baselineAdjustment:UIBaselineAdjustmentAlignBaselines];
+}
+
+// Enable accessibility for this view.
+- (BOOL)isAccessibilityElement
+{
+	return YES;
+}
+
+// Return a string that describes this view.
+- (NSString *)accessibilityLabel
+{
+	return self.title;
 }
 
 - (void)dealloc

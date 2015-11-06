@@ -1,7 +1,7 @@
 /*
      File: ControlsViewController.m
  Abstract: The view controller for hosting the UIControls features of this sample.
-  Version: 2.5
+  Version: 2.6
  
  Disclaimer: IMPORTANT:  This Apple software is supplied to you by Apple
  Inc. ("Apple") in consideration of your agreement to the following
@@ -261,6 +261,8 @@ static NSString *kViewKey = @"viewKey";
         // in case the parent view draws with a custom color or gradient, use a transparent color
         switchCtl.backgroundColor = [UIColor clearColor];
 		
+		[switchCtl setAccessibilityLabel:NSLocalizedString(@"StandardSwitch", @"")];
+		
 		switchCtl.tag = kViewTag;	// tag this view for later so we can remove it from recycled table cells
     }
     return switchCtl;
@@ -281,6 +283,9 @@ static NSString *kViewKey = @"viewKey";
         sliderCtl.maximumValue = 100.0;
         sliderCtl.continuous = YES;
         sliderCtl.value = 50.0;
+
+		// Add an accessibility label that describes the slider.
+		[sliderCtl setAccessibilityLabel:NSLocalizedString(@"StandardSlider", @"")];
 		
 		sliderCtl.tag = kViewTag;	// tag this view for later so we can remove it from recycled table cells
     }
@@ -307,6 +312,9 @@ static NSString *kViewKey = @"viewKey";
         customSlider.maximumValue = 100.0;
         customSlider.continuous = YES;
         customSlider.value = 50.0;
+		
+		// Add an accessibility label that describes the slider.
+		[customSlider setAccessibilityLabel:NSLocalizedString(@"CustomSlider", @"")];
 		
 		customSlider.tag = kViewTag;	// tag this view for later so we can remove it from recycled table cells
     }

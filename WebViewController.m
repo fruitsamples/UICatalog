@@ -1,7 +1,7 @@
 /*
      File: WebViewController.m
  Abstract: The view controller for hosting the UIWebView feature of this sample.
-  Version: 2.5
+  Version: 2.6
  
  Disclaimer: IMPORTANT:  This Apple software is supplied to you by Apple
  Inc. ("Apple") in consideration of your agreement to the following
@@ -91,6 +91,7 @@
 	urlField.autocapitalizationType = UITextAutocapitalizationTypeNone;	// don't capitalize
 	urlField.autocorrectionType = UITextAutocorrectionTypeNo;	// we don't like autocompletion while typing
 	urlField.clearButtonMode = UITextFieldViewModeAlways;
+	[urlField setAccessibilityLabel:NSLocalizedString(@"URLTextField", @"")];
 	[self.view addSubview:urlField];
 	[urlField release];
 	

@@ -1,7 +1,7 @@
 /*
      File: ButtonsViewController.h
  Abstract: The table view controller for hosting the UIButton features of this sample.
-  Version: 2.5
+  Version: 2.6
  
  Disclaimer: IMPORTANT:  This Apple software is supplied to you by Apple
  Inc. ("Apple") in consideration of your agreement to the following

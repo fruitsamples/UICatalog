@@ -1,7 +1,7 @@
 /*
      File: ButtonsViewController.m
  Abstract: The table view controller for hosting the UIButton features of this sample.
-  Version: 2.5
+  Version: 2.6
  
  Disclaimer: IMPORTANT:  This Apple software is supplied to you by Apple
  Inc. ("Apple") in consideration of your agreement to the following
@@ -342,6 +342,9 @@ static NSString *kViewKey = @"viewKey";
 		
 		[imageButton setImage:[UIImage imageNamed:@"UIButton_custom.png"] forState:UIControlStateNormal];
 		
+		// Add an accessibility label to the image.
+		[imageButton setAccessibilityLabel:NSLocalizedString(@"ArrowButton", @"")];
+		
 		imageButton.tag = kViewTag;	// tag this view for later so we can remove it from recycled table cells
 	}
 	return imageButton;
@@ -374,6 +377,9 @@ static NSString *kViewKey = @"viewKey";
 		detailDisclosureButtonType.backgroundColor = [UIColor clearColor];
 		[detailDisclosureButtonType addTarget:self action:@selector(action:) forControlEvents:UIControlEventTouchUpInside];
 		
+		// Add a custom accessibility label to the button because it has no associated text.
+		[detailDisclosureButtonType setAccessibilityLabel:NSLocalizedString(@"MoreInfoButton", @"")];
+
 		detailDisclosureButtonType.tag = kViewTag;	// tag this view for later so we can remove it from recycled table cells
 	}
 	return detailDisclosureButtonType;
@@ -390,6 +396,9 @@ static NSString *kViewKey = @"viewKey";
 		infoDarkButtonType.backgroundColor = [UIColor clearColor];
 		[infoDarkButtonType addTarget:self action:@selector(action:) forControlEvents:UIControlEventTouchUpInside];
 		
+		// Add a custom accessibility label to the button because it has no associated text.
+		[infoDarkButtonType setAccessibilityLabel:NSLocalizedString(@"MoreInfoButton", @"")];
+
 		infoDarkButtonType.tag = kViewTag;	// tag this view for later so we can remove it from recycled table cells
 	}
 	return infoDarkButtonType;
@@ -407,6 +416,9 @@ static NSString *kViewKey = @"viewKey";
 		[infoLightButtonType addTarget:self action:@selector(action:) forControlEvents:UIControlEventTouchUpInside];
 		infoLightButtonType.backgroundColor = [UIColor grayColor];
 		
+		// Add a custom accessibility label to the button because it has no associated text.
+		[infoLightButtonType setAccessibilityLabel:NSLocalizedString(@"MoreInfoButton", @"")];
+
 		infoLightButtonType.tag = kViewTag;	// tag this view for later so we can remove it from recycled table cells
 	}
 	
@@ -423,6 +435,9 @@ static NSString *kViewKey = @"viewKey";
 		[contactAddButtonType setTitle:@"Detail Disclosure" forState:UIControlStateNormal];
 		contactAddButtonType.backgroundColor = [UIColor clearColor];
 		[contactAddButtonType addTarget:self action:@selector(action:) forControlEvents:UIControlEventTouchUpInside];
+		
+		// Add a custom accessibility label to the button because it has no associated text.
+		[contactAddButtonType setAccessibilityLabel:NSLocalizedString(@"AddContactButton", @"")];
 		
 		contactAddButtonType.tag = kViewTag;	// tag this view for later so we can remove it from recycled table cells
 	}

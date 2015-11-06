@@ -1,7 +1,7 @@
 /*
      File: ToolbarViewController.m
  Abstract: The view controller for hosting the UIToolbar and UIBarButtonItem features of this sample.
-  Version: 2.5
+  Version: 2.6
  
  Disclaimer: IMPORTANT:  This Apple software is supplied to you by Apple
  Inc. ("Apple") in consideration of your agreement to the following
@@ -99,6 +99,8 @@
 																  style:style
 																 target:self
 																 action:@selector(action:)];
+	// Set the accessibility label for an image bar item.
+	[infoItem setAccessibilityLabel:NSLocalizedString(@"ToolsIcon", @"")];
 	
 	// create a bordered style button with custom title
 	UIBarButtonItem *customItem = [[UIBarButtonItem alloc] initWithTitle:@"Item"
@@ -182,6 +184,9 @@
 	
 	currentSystemItem = UIBarButtonSystemItemDone;
 	[self createToolbarItems];
+	
+	// Set the accessibility label for the tint switch so that its context can be determined.
+	[self.tintSwitch setAccessibilityLabel:NSLocalizedString(@"TintSwitch", @"")];
 }
 
 - (IBAction)toggleStyle:(id)sender
